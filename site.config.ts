@@ -11,7 +11,7 @@ export const site = {
     street: 'Meersburger Straße 13',
     city: '88709 Hagnau am Bodensee',
     country: 'Deutschland',
-    email: 'marchaupter@outlook.com' // swap for the business address once it exists,
+    email: 'marchaupter@outlook.com', // swap for the business address once it exists
     phone: '', // optional, e.g. '+49 …'
     vatId: '', // USt-IdNr., if one exists
   },
