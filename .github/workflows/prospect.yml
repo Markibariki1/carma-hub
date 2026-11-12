@@ -1,0 +1,78 @@
+# Personal draft pages (/fuer/<token>) for businesses that agreed to get a free draft.
+#
+# Make one: GitHub → Actions → "Prospect pages" → Run workflow → fill in the website and name.
+# The job takes a screenshot of their site, builds the draft, commits it, and Vercel publishes it.
+# The private link is shown in the job summary about a minute later.
+#
+# Every night the same workflow deletes drafts older than their expiry (30 days by default).
+name: Prospect pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Their current website (e.g. www.baeckerei-beispiel.de)
+        required: true
+      name:
+        description: Business name as it should appear (e.g. Bäckerei Beispiel)
+        required: true
+      contact:
+        description: Person to greet, optional (e.g. Frau Berger)
+        required: false
+      city:
+        description: Town, optional (e.g. Meersburg)
+        required: false
+      note:
+        description: A personal line under the greeting, optional
+        required: false
+  schedule:
+    - cron: '17 3 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prospect-pages
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Make the draft
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          P_URL: ${{ inputs.url }}
+          P_NAME: ${{ inputs.name }}
+          P_CONTACT: ${{ inputs.contact }}
+          P_CITY: ${{ inputs.city }}
+          P_NOTE: ${{ inputs.note }}
+        run: |
+          npx playwright-core install --with-deps chromium
+          set -- --url "$P_URL" --name "$P_NAME"
+          [ -n "$P_CONTACT" ] && set -- "$@" --contact "$P_CONTACT"
+          [ -n "$P_CITY" ] && set -- "$@" --city "$P_CITY"
+          [ -n "$P_NOTE" ] && set -- "$@" --note "$P_NOTE"
+          node scripts/prospect.mjs "$@"
+
+      - name: Remove expired drafts
+        run: node scripts/prospect-cleanup.mjs
+
+      - name: Commit and push
+        env:
+          P_NAME: ${{ inputs.name }}
+        run: |
+          git add -A content/prospects public/fuer
+          if git diff --cached --quiet; then echo "No changes."; exit 0; fi
+          # Vercel only deploys commits by a member of the Vercel team, so commit as Marc.
+          if [ -n "$P_NAME" ]; then MSG="Draft page for $P_NAME"; else MSG="Remove expired draft pages"; fi
+          git -c user.name="Marc Haupter" -c user.email="marchaupter@outlook.com" commit -m "$MSG"
+          git push

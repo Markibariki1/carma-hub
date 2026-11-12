@@ -15,6 +15,22 @@ export const site = {
     phone: '', // optional, e.g. '+49 …'
     vatId: '', // USt-IdNr., if one exists
   },
+  /** Public contact shown on the homepage. Leave empty to hide the buttons. */
+  contact: {
+    /** Shown as a tap-to-call button, e.g. '+49 151 2345678'. */
+    phone: '' as string,
+    /** WhatsApp number in international format without + or spaces, e.g. '491512345678'. */
+    whatsapp: '' as string,
+  },
+  /** Portrait for the "who you deal with" block, e.g. '/marc.jpg' in /public. Empty shows initials. */
+  photo: '' as string,
+  /** Prices shown on the homepage. Set show to false to go back to "fixed quote after the first call". */
+  pricing: {
+    show: true as boolean,
+    buildFrom: 500,
+    buildTo: 900,
+    carePerMonth: 39.99,
+  },
 } as const;
 
 /** True once the placeholder details above have been replaced. */

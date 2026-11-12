@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { track } from '@vercel/analytics';
 import { sendEnquiry, type ContactState } from '@/app/actions/contact';
 import type { Dict } from '@/content/types';
 
@@ -11,6 +12,10 @@ export function ContactForm({ t, lang, privacyHref, fallbackEmail }: Props) {
   const [state, action, pending] = useActionState<ContactState, FormData>(sendEnquiry, { status: 'idle' });
   const [startedAt, setStartedAt] = useState(0);
   useEffect(() => setStartedAt(Date.now()), []);
+  useEffect(() => {
+    if (state.status === 'sent') track('enquiry-sent');
+    else if (state.status === 'error') track('enquiry-error', { reason: state.reason });
+  }, [state]);
 
   if (state.status === 'sent') {
     return (

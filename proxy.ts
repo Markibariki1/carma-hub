@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 /**
- * Language routing. English lives at "/", German at "/de".
+ * Language routing. English lives at "/" (and /work/…), German at "/de" (and /de/…).
  *
  * First visit to "/": German visitors are sent to /de when
  *   - their browser's preferred language is German, or
@@ -37,7 +37,7 @@ export function proxy(req: NextRequest) {
   const { pathname, searchParams } = req.nextUrl;
 
   // Explicit switch to English: remember it and drop the query string.
-  if (pathname === '/' && searchParams.get('lang') === 'en') {
+  if (searchParams.get('lang') === 'en') {
     const url = req.nextUrl.clone();
     url.searchParams.delete('lang');
     const res = NextResponse.redirect(url);
@@ -46,7 +46,7 @@ export function proxy(req: NextRequest) {
   }
 
   // Visiting the German page remembers German.
-  if (pathname === '/de') {
+  if (pathname === '/de' || pathname.startsWith('/de/')) {
     const res = NextResponse.next();
     if (req.cookies.get(COOKIE)?.value !== 'de') res.cookies.set(COOKIE, 'de', { maxAge: YEAR, path: '/', sameSite: 'lax' });
     return res;
@@ -64,4 +64,4 @@ export function proxy(req: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ['/', '/de'] };
+export const config = { matcher: ['/', '/de', '/de/:path*', '/work/:path*'] };

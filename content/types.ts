@@ -20,6 +20,9 @@ export type Dict = {
   services: { title: string; intro: string; items: { title: string; body: string }[] };
   work: {
     title: string;
+    /** Homepage highlight. */
+    highlightTitle: string;
+    caseLink: string;
     client: string;
     place: string;
     summary: string;
@@ -35,7 +38,30 @@ export type Dict = {
     beforePhoneAlt: string;
     afterPhoneAlt: string;
   };
-  cost: { title: string; body: string[] };
+  about: {
+    title: string;
+    body: string[];
+    name: string;
+    place: string;
+    call: string;
+    whatsapp: string;
+    whatsappText: string;
+    email: string;
+  };
+  cost: {
+    title: string;
+    /** Shown when prices are switched off in site.config. */
+    body: string[];
+    build: string;
+    buildNote: string;
+    care: string;
+    careNote: string;
+    perMonth: string;
+    vatNote: string;
+    termsTitle: string;
+    terms: string[];
+  };
+  caseStudy: { back: string; ctaTitle: string; ctaBody: string; cta: string };
   faq: { title: string; items: { q: string; a: string }[] };
   contact: {
     title: string;

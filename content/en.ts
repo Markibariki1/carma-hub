@@ -21,10 +21,10 @@ export const en: Dict = {
   },
   hero: {
     title: 'Small business. Flagship website.',
-    lede: 'I rebuild outdated websites into fast, beautiful sites you can update yourself, and I look after them once they are live.',
+    lede: 'I rebuild outdated websites into fast, beautiful sites you can update yourself, and I keep looking after them once they are live.',
     primary: 'Book a free first call',
-    secondary: 'See a redesign',
-    scrollHint: 'Scroll to take a website apart',
+    secondary: 'See a before and after',
+    scrollHint: 'Scroll to see how a website is built',
   },
   stack: {
     intro: 'Every good website is built in layers.',
@@ -38,12 +38,12 @@ export const en: Dict = {
       },
       {
         label: 'Design',
-        title: 'Design it like it matters.',
+        title: 'Designed for your business, not off the shelf.',
         body: 'A design made for your business, not a template. Built to look sharp on every phone, tablet and screen.',
       },
       {
         label: 'Editor',
-        title: 'Hand you the keys.',
+        title: 'The keys stay in your hands.',
         body: 'A simple editor for products, posts and opening hours. Press publish and the change is live.',
       },
       {
@@ -58,7 +58,7 @@ export const en: Dict = {
   },
   compare: {
     title: 'Before and after.',
-    body: 'Shang Antique in Singapore had a collection worth travelling for and a website that hid it.',
+    body: 'The old site hid a remarkable collection behind pop-ups and a cropped banner. The new one puts every piece first and turns an enquiry into a single tap.',
     hint: 'Drag the handle to compare.',
     before: 'Before',
     after: 'After',
@@ -84,6 +84,8 @@ export const en: Dict = {
   },
   work: {
     title: 'Work',
+    highlightTitle: 'A recent redesign',
+    caseLink: 'Read how it was done',
     client: 'Shang Antique',
     place: 'Antiques dealer in Singapore, since 1984',
     summary:
@@ -105,12 +107,45 @@ export const en: Dict = {
     beforePhoneAlt: 'Old website on a phone',
     afterPhoneAlt: 'New website on a phone',
   },
+  about: {
+    title: 'You deal with me.',
+    body: [
+      'I’m Marc. I run Carma on my own from Hagnau on Lake Constance, and I design and build every website myself.',
+      'There is no sales team and no call centre. The person you talk to first is the person who builds your site and answers when you need a change.',
+    ],
+    name: 'Marc Haupter',
+    place: 'Hagnau am Bodensee, Germany',
+    call: 'Call me',
+    whatsapp: 'WhatsApp',
+    whatsappText: 'Hi Marc, I’d like to talk about my website.',
+    email: 'Email me',
+  },
   cost: {
     title: 'What it costs',
     body: [
       'Every business is different, so there is no price list. After our first call you get a fixed quote with two parts: a one-off fee for design and build, then a monthly amount for hosting and care.',
       'Care can be cancelled with 30 days’ notice. The website and its content belong to you.',
     ],
+    build: 'Design and build',
+    buildNote: 'One-off, depending on how many pages and products you have. You get a fixed quote in writing first.',
+    care: 'Hosting and care',
+    careNote: 'Hosting, security updates, backups and up to an hour of small changes every month.',
+    perMonth: 'a month',
+    vatNote: 'Prices for businesses, plus VAT where it applies.',
+    termsTitle: 'Fair terms, in writing',
+    terms: [
+      'No minimum term. Care can be cancelled with 30 days’ notice.',
+      'You pay for the build once your site is live.',
+      'Your domain, your logins, your content. They stay yours.',
+      'A fixed quote in writing before any work starts.',
+      'Nothing is ever agreed on the phone. You decide in your own time.',
+    ],
+  },
+  caseStudy: {
+    back: 'Back to Carma',
+    ctaTitle: 'Want this for your business?',
+    ctaBody: 'Send me a link to your current website. I will tell you honestly what I would change, with no obligation.',
+    cta: 'Book a free first call',
   },
   faq: {
     title: 'Questions',
@@ -124,7 +159,7 @@ export const en: Dict = {
   },
   contact: {
     title: 'Tell me about your business.',
-    lede: 'Send me a few lines and a link to your current website. I will reply with a time for a first call.',
+    lede: 'Send me a few lines and a link to your current website. I will reply with a time for a free, no-obligation call, or a visit if you are nearby.',
     solo: 'Carma is a one-person studio. You talk to the same person from the first message to launch day.',
     fields: { name: 'Name', business: 'Business', website: 'Current website', email: 'Email', phone: 'Phone', message: 'Message', optional: 'optional' },
     placeholderWebsite: 'www.your-business.com',

@@ -1,3 +1,4 @@
+import { ViewTransition } from 'react';
 import type { Dict } from '@/content/types';
 import { BeforeAfter } from './BeforeAfter';
 import { ContactForm } from './ContactForm';
@@ -6,6 +7,11 @@ import { LayerStack } from './stack/LayerStack';
 import { RiseText } from './RiseText';
 import { ScrollFX } from './ScrollFX';
 import { site, ownerDetailsComplete } from '@/site.config';
+import { About } from './About';
+import { Cost } from './Cost';
+import Link from 'next/link';
+import { caseStudyHref } from '@/lib/routes';
+import { businessJsonLd } from '@/lib/jsonld';
 
 const W = '/work/';
 const desk = (name: string, alt: string) => ({
@@ -15,13 +21,14 @@ const desk = (name: string, alt: string) => ({
   height: 1125,
   alt,
 });
-const phone = (name: string, alt: string) => ({ src: `${W}${name}.webp`, width: 600, height: 1298, alt });
 
 export function Home({ t }: { t: Dict }) {
   const home = t.lang === 'en' ? '/' : '/de';
+  const caseHref = caseStudyHref(t.lang, 'shang-antique');
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd(t)).replace(/</g, '\\u003c') }} />
       <ScrollFX />
       <a className="skip" href="#main">
         {t.nav.skip}
@@ -29,16 +36,23 @@ export function Home({ t }: { t: Dict }) {
       <Header t={t} home={home} />
 
       <main id="main">
-        <LayerStack hero={t.hero} stack={t.stack} />
+        <LayerStack lang={t.lang} hero={t.hero} stack={t.stack} />
 
-        <section className="compare-section" id="compare" aria-labelledby="compare-title">
+        <section className="highlight" id="work" aria-labelledby="work-title">
           <div className="wrap">
             <div className="section-head">
-              <RiseText id="compare-title" className="display" text={t.compare.title} />
+              <div>
+                <RiseText id="work-title" className="display" text={t.work.highlightTitle} />
+                <p className="highlight__client" data-reveal>
+                  <strong>{t.work.client}</strong>
+                  <span>{t.work.place}</span>
+                </p>
+              </div>
               <p className="section-head__body" data-reveal>
                 {t.compare.body}
               </p>
             </div>
+            <ViewTransition name="case-shang-antique">
             <figure className="compare-figure" data-reveal>
               <BeforeAfter
                 intro
@@ -51,6 +65,25 @@ export function Home({ t }: { t: Dict }) {
               />
               <figcaption className="caption">{t.compare.hint}</figcaption>
             </figure>
+            </ViewTransition>
+            <div className="highlight__foot">
+              <ul className="highlight__facts">
+                {t.work.facts.slice(0, 3).map((f) => (
+                  <li key={f.title} data-reveal>
+                    <p className="highlight__fact-title">{f.title}</p>
+                    <p className="highlight__fact-body">{f.body}</p>
+                  </li>
+                ))}
+              </ul>
+              <div className="highlight__links" data-reveal>
+                <Link className="btn btn--primary" href={caseHref} data-event="case-open">
+                  {t.work.caseLink}
+                </Link>
+                <a className="link" href="https://shangantique.com" target="_blank" rel="noopener noreferrer">
+                  {t.work.visit}
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -90,87 +123,9 @@ export function Home({ t }: { t: Dict }) {
           </div>
         </section>
 
-        <section className="work" id="work" aria-labelledby="work-title">
-          <div className="wrap">
-            <h2 id="work-title" className="visually-hidden">
-              {t.work.title}
-            </h2>
-            <header className="case__head">
-              <div>
-                <RiseText as="p" className="case__client" text={t.work.client} />
-                <p className="case__place" data-reveal>
-                  {t.work.place}
-                </p>
-              </div>
-              <p className="case__summary" data-reveal>
-                {t.work.summary}
-              </p>
-            </header>
+        <About t={t.about} />
 
-            <figure className="case__wide" data-parallax>
-              <div className="case__frame">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img {...desk('shang-product', t.work.productAlt)} sizes="(min-width: 1400px) 1320px, 100vw" loading="lazy" decoding="async" />
-              </div>
-              <figcaption className="caption caption--dark">{t.work.productCaption}</figcaption>
-            </figure>
-
-            <div className="case__grid">
-              <figure className="case__phones">
-                <div className="phones">
-                  <div className="phone-col" data-parallax>
-                    <div className="phone">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img {...phone('shang-before-phone', t.work.beforePhoneAlt)} loading="lazy" decoding="async" />
-                    </div>
-                    <span className="phone__tag">{t.work.beforePhone}</span>
-                  </div>
-                  <div className="phone-col phone-col--offset" data-parallax>
-                    <div className="phone">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img {...phone('shang-after-phone', t.work.afterPhoneAlt)} loading="lazy" decoding="async" />
-                    </div>
-                    <span className="phone__tag phone__tag--after">{t.work.afterPhone}</span>
-                  </div>
-                </div>
-                <figcaption className="caption caption--dark">{t.work.phoneCaption}</figcaption>
-              </figure>
-
-              <div className="case__side">
-                <ul className="facts">
-                  {t.work.facts.map((f) => (
-                    <li key={f.title} data-reveal>
-                      <p className="facts__title">{f.title}</p>
-                      <p className="facts__body">{f.body}</p>
-                    </li>
-                  ))}
-                </ul>
-                <a className="btn btn--light" href="https://shangantique.com" target="_blank" rel="noopener noreferrer">
-                  {t.work.visit}
-                </a>
-              </div>
-            </div>
-
-            <figure className="case__wide" data-parallax>
-              <div className="case__frame">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img {...desk('shang-collection', t.work.collectionAlt)} sizes="(min-width: 1400px) 1320px, 100vw" loading="lazy" decoding="async" />
-              </div>
-              <figcaption className="caption caption--dark">{t.work.collectionCaption}</figcaption>
-            </figure>
-          </div>
-        </section>
-
-        <section className="cost" aria-labelledby="cost-title">
-          <div className="wrap cost__inner">
-            <RiseText id="cost-title" className="h2" text={t.cost.title} />
-            <div className="cost__body" data-reveal>
-              {t.cost.body.map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </div>
-          </div>
-        </section>
+        <Cost t={t.cost} lang={t.lang} />
 
         <section className="faq" aria-labelledby="faq-title">
           <div className="wrap faq__inner">

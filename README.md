@@ -1,8 +1,8 @@
 # Carma website
 
-The public website for Carma, Marc's web design studio for small businesses: services, the Shang Antique case study, how a project runs, FAQ and a contact form. No prices on purpose: every project gets its own quote.
+The public website for Carma, Marc's web design studio for small businesses: what you get, one highlighted project, who Marc is, prices and terms, FAQ and a contact form. Live at www.carmasearch.com.
 
-Built from the old Carma car-search app (`carmasearchv_b`), keeping only what a marketing site needs: Next.js on Vercel, the security headers, and the Resend email set-up. Everything vehicle-related is gone.
+Built from the old Carma car-search app (`carmasearchv_b`), keeping only what a marketing site needs: Next.js on Vercel, the security headers, and the Resend email set-up.
 
 ## Pages
 
@@ -10,28 +10,42 @@ Built from the old Carma car-search app (`carmasearchv_b`), keeping only what a 
 |---|---|
 | `/` | English home page (default) |
 | `/de` | German home page |
-| `/impressum` | Impressum (required in Germany) |
-| `/datenschutz` | Privacy policy |
+| `/work/<slug>`, `/de/arbeiten/<slug>` | Case studies (English, German) |
+| `/fuer/<token>` | Private draft pages for prospects (German, not indexed, expire after 30 days) |
+| `/impressum`, `/datenschutz` | Legal pages (German) |
 
-All copy lives in `content/en.ts` and `content/de.ts`.
+Any other address shows a bilingual 404 (`app/global-not-found.tsx`).
 
-**Languages:** `proxy.ts` sends first-time visitors to `/de` when their browser's main language is German, or when they are in Germany/Austria and German is among their browser languages. Using the language switch is remembered in a cookie. To add a language, add `content/<lang>.ts`, an `app/(<lang>)` route and a rule in `proxy.ts`.
+**Copy:** `content/en.ts` and `content/de.ts`. Case studies: `content/cases.ts`.
 
-**The 3D hero** (`components/stack/`): a website shown as four glass layers (content, design, editor, hosting & care) built with three.js. It assembles on load, pulls apart on scroll and walks through the workflow. Layer images are drawn in `textures.ts`; the scroll choreography is in `scene.ts`. Without WebGL the hero falls back to plain text. Smooth scrolling, word-rise headings and parallax live in `components/ScrollFX.tsx`. Business details for the Impressum and privacy page live in `site.config.ts`.
+**Settings:** `site.config.ts` holds the business details (Impressum, privacy page, structured data), the public phone and WhatsApp numbers (empty = buttons hidden), the portrait photo (empty = initials) and the prices (`pricing.show: false` goes back to "fixed quote after the first call").
+
+**Languages:** `proxy.ts` sends first-time visitors to `/de` when their browser's main language is German, or when they are in Germany/Austria and German is among their browser languages. The language switch is remembered in a cookie. To add a language, add `content/<lang>.ts`, an `app/(<lang>)` route and a rule in `proxy.ts`.
+
+**The 3D hero** (`components/stack/`): a website shown as four layers (content, design, editor, hosting & care) for a made-up joinery, drawn in code in `textures.ts`. On desktop it pulls apart as you scroll (`scene.ts` has the choreography); on phones it plays by itself in one screen. It only draws when something moves. With reduced motion, no GPU or no JavaScript, visitors see a still picture instead (`public/stack-poster-en.webp`, `-de.webp`). Add `?force3d` to the address to see the 3D version on a machine without a GPU (for screenshots). Smooth scrolling, word-rise headings and parallax live in `components/ScrollFX.tsx`.
+
+**Analytics:** Vercel Web Analytics, without cookies (`components/SiteAnalytics.tsx`). Buttons with `data-event="…"` are counted as events (call, whatsapp, email, hero-cta, header-cta, case-open, case-cta, prospect-reply), plus `enquiry-sent` and `enquiry-error` from the form. Turn it on in Vercel > Project > Analytics.
+
+## Case studies
+
+Add an entry to `content/cases.ts` (English and German text, image paths) and the screenshots to `public/work/` as `.webp` (1000 and 1800 px wide for desktop, 600 px for phone shots). The page, sitemap entry and language links follow automatically. Leave `quote` as `null` until the client has given a real quote.
+
+## Prospect drafts (`/fuer/<token>`)
+
+A personal page showing a business its current home page next to a first draft in its own name, colours and photos. **Only make one after the owner has agreed to receive it** (unsolicited advertising by phone or email to businesses needs their consent in Germany, UWG §7).
+
+- **From GitHub:** Actions > "Prospect pages" > Run workflow, fill in website and business name (optionally the person to greet, town, a personal line). The job builds the draft, commits it and Vercel publishes it; the private link is in the job summary.
+- **Locally:** `node scripts/prospect.mjs --url www.example.de --name "Bäckerei Beispiel" --contact "Frau Berger"` (set `CHROME_PATH` or run `npx playwright-core install chromium` first), then commit and push.
+
+Always open the draft before sending the link; adjust the headline, colour or photo in `content/prospects/<token>.json` if the script picked something odd. Pages stop working after 30 days, and the same workflow deletes expired drafts and their images every night (`scripts/prospect-cleanup.mjs`).
 
 ## Before going live
 
-1. **Fill in `site.config.ts`**: full name, street, postcode and town, email (plus phone/USt-ID if you have them). While any `[placeholder]` is left, the site tells search engines not to index it and the legal pages show a draft note.
-2. **Contact form** – in Vercel > Project > Settings > Environment Variables add:
+1. **Contact form** – in Vercel > Project > Settings > Environment Variables add:
    - `RESEND_API_KEY` – from resend.com > API Keys
    - `CONTACT_TO` – the inbox that receives enquiries
-   - `CONTACT_FROM` – e.g. `Carma <hallo@your-domain.de>` once the domain is verified in Resend. Until then leave it out; Resend's test sender only delivers to your own Resend account email.
-3. **Domain** – Vercel > Project > Settings > Domains, then set `NEXT_PUBLIC_SITE_URL` to it.
-4. Have the Impressum and Datenschutz text checked (e.g. with an e-Recht24 generator or your accountant/lawyer).
-
-## Adding a new portfolio project
-
-Screenshots go in `public/work/` as `.webp` (1000 and 1800 px wide for desktop, 600 px for phone shots). The case study section is in `components/Home.tsx`; its text is under `work` in the content files.
+   - `CONTACT_FROM` – e.g. `Carma <hallo@carmasearch.com>` once the domain is verified in Resend. Until then leave it out; Resend's test sender only delivers to your own Resend account email.
+2. Have the Impressum and Datenschutz text checked (e.g. with an e-Recht24 generator or your accountant/lawyer).
 
 ## Run locally
 

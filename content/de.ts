@@ -11,7 +11,7 @@ export const de: Dict = {
     work: 'Arbeiten',
     services: 'Leistungen',
     contact: 'Kontakt',
-    cta: 'Projekt anfragen',
+    cta: 'Unverbindlich anfragen',
     switchTo: 'English',
     switchHref: '/?lang=en',
     switchLabel: 'Switch to English',
@@ -21,10 +21,10 @@ export const de: Dict = {
   },
   hero: {
     title: 'Kleiner Betrieb. Großer Auftritt.',
-    lede: 'Ich baue veraltete Websites zu schnellen, schönen Seiten um, die Sie selbst pflegen können, und betreue sie, wenn sie online sind.',
-    primary: 'Kostenloses Erstgespräch',
-    secondary: 'Ein Redesign ansehen',
-    scrollHint: 'Scrollen, um eine Website zu zerlegen',
+    lede: 'Ich baue veraltete Websites zu schnellen, schönen Seiten um, die Sie selbst pflegen können, und kümmere mich danach weiter darum.',
+    primary: 'Unverbindlich anfragen',
+    secondary: 'Vorher–nachher ansehen',
+    scrollHint: 'Scrollen: so ist eine Website aufgebaut',
   },
   stack: {
     intro: 'Jede gute Website ist in Schichten gebaut.',
@@ -38,12 +38,12 @@ export const de: Dict = {
       },
       {
         label: 'Design',
-        title: 'Gestalten, als ob es zählt.',
+        title: 'Gestaltet für Ihren Betrieb, nicht von der Stange.',
         body: 'Ein Design für Ihren Betrieb, keine Vorlage. Gebaut, um auf jedem Handy, Tablet und Bildschirm gut auszusehen.',
       },
       {
         label: 'Editor',
-        title: 'Ihnen die Schlüssel geben.',
+        title: 'Sie haben den Schlüssel selbst in der Hand.',
         body: 'Ein einfacher Editor für Produkte, Beiträge und Öffnungszeiten. Veröffentlichen, und die Änderung ist online.',
       },
       {
@@ -54,11 +54,11 @@ export const de: Dict = {
     ],
     outro: 'In Schichten gebaut. Aus einem Guss geliefert.',
     outroBody: 'Eine Person kümmert sich um alles, vom ersten Gespräch bis zum Start und darüber hinaus.',
-    outroCta: 'Kostenloses Erstgespräch',
+    outroCta: 'Unverbindlich anfragen',
   },
   compare: {
     title: 'Vorher, nachher.',
-    body: 'Shang Antique in Singapur hatte eine Sammlung, für die man anreist, und eine Website, die sie versteckte.',
+    body: 'Die alte Seite versteckte eine besondere Sammlung hinter Pop-ups und einem abgeschnittenen Banner. Die neue stellt jedes Stück nach vorn und macht die Anfrage zu einem Fingertipp.',
     hint: 'Zum Vergleichen den Regler ziehen.',
     before: 'Vorher',
     after: 'Nachher',
@@ -84,6 +84,8 @@ export const de: Dict = {
   },
   work: {
     title: 'Arbeiten',
+    highlightTitle: 'Ein aktuelles Redesign',
+    caseLink: 'So ist es entstanden',
     client: 'Shang Antique',
     place: 'Antiquitätenhandel in Singapur, seit 1984',
     summary:
@@ -105,12 +107,45 @@ export const de: Dict = {
     beforePhoneAlt: 'Alte Website auf dem Handy',
     afterPhoneAlt: 'Neue Website auf dem Handy',
   },
+  about: {
+    title: 'Sie haben es mit mir zu tun.',
+    body: [
+      'Ich bin Marc. Ich führe Carma allein von Hagnau am Bodensee aus und gestalte und baue jede Website selbst.',
+      'Es gibt keinen Vertrieb und kein Callcenter. Wer beim ersten Gespräch mit Ihnen spricht, baut auch Ihre Seite und ist erreichbar, wenn Sie später etwas ändern möchten.',
+    ],
+    name: 'Marc Haupter',
+    place: 'Hagnau am Bodensee',
+    call: 'Anrufen',
+    whatsapp: 'WhatsApp',
+    whatsappText: 'Hallo Marc, ich würde gern über meine Website sprechen.',
+    email: 'E-Mail schreiben',
+  },
   cost: {
     title: 'Was es kostet',
     body: [
       'Jeder Betrieb ist anders, deshalb gibt es keine Preisliste. Nach dem Erstgespräch bekommen Sie ein festes Angebot mit zwei Posten: einmal für Gestaltung und Umbau, danach ein monatlicher Betrag für Hosting und Betreuung.',
       'Die Betreuung ist mit 30 Tagen Frist kündbar. Website und Inhalte gehören Ihnen.',
     ],
+    build: 'Gestaltung und Umbau',
+    buildNote: 'Einmalig, je nachdem, wie viele Seiten und Produkte Sie haben. Vorher bekommen Sie ein schriftliches Festangebot.',
+    care: 'Hosting und Betreuung',
+    careNote: 'Hosting, Sicherheits-Updates, Backups und bis zu einer Stunde kleine Änderungen pro Monat.',
+    perMonth: 'im Monat',
+    vatNote: 'Preise für Unternehmen, zzgl. MwSt., sofern sie anfällt.',
+    termsTitle: 'Faire Bedingungen, schriftlich',
+    terms: [
+      'Keine Mindestlaufzeit. Die Betreuung ist mit 30 Tagen Frist kündbar.',
+      'Sie zahlen den Umbau erst, wenn die Seite online ist.',
+      'Ihre Domain, Ihre Zugangsdaten, Ihre Inhalte. Sie bleiben Ihre.',
+      'Ein schriftliches Festangebot, bevor die Arbeit beginnt.',
+      'Am Telefon wird nichts abgeschlossen. Sie entscheiden in Ruhe.',
+    ],
+  },
+  caseStudy: {
+    back: 'Zurück zu Carma',
+    ctaTitle: 'So etwas auch für Ihren Betrieb?',
+    ctaBody: 'Schicken Sie mir den Link zu Ihrer jetzigen Website. Ich sage Ihnen ehrlich, was ich ändern würde, ganz unverbindlich.',
+    cta: 'Unverbindlich anfragen',
   },
   faq: {
     title: 'Häufige Fragen',
@@ -124,7 +159,7 @@ export const de: Dict = {
   },
   contact: {
     title: 'Erzählen Sie mir von Ihrem Betrieb.',
-    lede: 'Schicken Sie mir ein paar Zeilen und den Link zu Ihrer jetzigen Website. Ich melde mich mit einem Terminvorschlag für ein Erstgespräch.',
+    lede: 'Schicken Sie mir ein paar Zeilen und den Link zu Ihrer jetzigen Website. Ich melde mich für ein unverbindliches Gespräch, gern auch bei Ihnen vor Ort.',
     solo: 'Carma ist ein Ein-Personen-Studio. Sie sprechen von der ersten Nachricht bis zum Start mit derselben Person.',
     fields: { name: 'Name', business: 'Betrieb', website: 'Jetzige Website', email: 'E-Mail', phone: 'Telefon', message: 'Nachricht', optional: 'optional' },
     placeholderWebsite: 'www.ihr-betrieb.de',

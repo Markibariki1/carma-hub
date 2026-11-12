@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 type Img = { src: string; srcSet?: string; width: number; height: number; alt: string };
 
@@ -14,9 +14,11 @@ type Props = {
   className?: string;
   /** Plays a single sweep the first time the comparison scrolls into view. */
   intro?: boolean;
+  /** Live content for the "after" side instead of an image (after still sets size and label). */
+  afterNode?: ReactNode;
 };
 
-export function BeforeAfter({ before, after, beforeLabel, afterLabel, sliderLabel, sizes, className, intro = false }: Props) {
+export function BeforeAfter({ before, after, beforeLabel, afterLabel, sliderLabel, sizes, className, intro = false, afterNode }: Props) {
   const [pos, setPos] = useState(intro ? 88 : 50);
   const [animating, setAnimating] = useState(false);
   const root = useRef<HTMLDivElement>(null);
@@ -67,8 +69,14 @@ export function BeforeAfter({ before, after, beforeLabel, afterLabel, sliderLabe
       onPointerUp={() => (dragging.current = false)}
       onPointerCancel={() => (dragging.current = false)}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="compare__img" src={after.src} srcSet={after.srcSet} sizes={sizes} width={after.width} height={after.height} alt={after.alt} draggable={false} />
+      {afterNode ? (
+        <div className="compare__img compare__node" role="img" aria-label={after.alt}>
+          {afterNode}
+        </div>
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img className="compare__img" src={after.src} srcSet={after.srcSet} sizes={sizes} width={after.width} height={after.height} alt={after.alt} draggable={false} />
+      )}
       <div className="compare__before" aria-hidden="false">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="compare__img" src={before.src} srcSet={before.srcSet} sizes={sizes} width={before.width} height={before.height} alt={before.alt} draggable={false} />

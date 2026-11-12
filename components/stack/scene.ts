@@ -10,6 +10,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { designTexture, contentTexture, editorTexture, foundationTexture } from './textures';
+import type { Lang } from '@/content/types';
 
 export type FrameInfo = {
   progress: number;
@@ -24,6 +25,13 @@ type Options = {
   getProgress: () => number;
   onFrame: (f: FrameInfo) => void;
   reducedMotion: boolean;
+  lang: Lang;
+  /** Turn of the stack, 0..1. Defaults to following progress. */
+  getSpin?: () => number;
+  /** How quickly the scene follows progress (1 = instantly). */
+  follow?: number;
+  /** Frame-rate cap, e.g. 30 on phones to save battery. */
+  maxFps?: number;
 };
 
 const W = 4;
@@ -88,7 +96,13 @@ function shadowTexture() {
 export function createScene(canvas: HTMLCanvasElement, opts: Options) {
   let renderer: THREE.WebGLRenderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance',
+      failIfMajorPerformanceCaveat: !/[?&]force3d\b/.test(location.search),
+    });
   } catch {
     return null;
   }
@@ -157,7 +171,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
   let disposed = false;
   (document.fonts?.ready ?? Promise.resolve()).then(() =>
     makers.forEach((make, i) =>
-      make()
+      make(opts.lang)
         .then((c) => {
           if (disposed) return;
           const tex = new THREE.CanvasTexture(c);
@@ -166,12 +180,14 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
           layers[i].topMat.map = tex;
           layers[i].topMat.color.set(0xffffff);
           layers[i].topMat.needsUpdate = true;
+          dirty = true;
         })
         .catch(() => {}),
     ),
   );
 
   // Layout state
+  let dirty = true;
   let width = 1;
   let height = 1;
   let mobile = false;
@@ -184,6 +200,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    dirty = true;
   }
   resize();
   const ro = new ResizeObserver(resize);
@@ -200,15 +217,34 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
 
   const start = performance.now();
   let smoothP = opts.getProgress();
+  let lastSpin = -1;
+  let lastRender = 0;
   const v = new THREE.Vector3();
   let raf = 0;
   let running = false;
 
+  // Assemble-on-load runs for this long; after that we only render when something moves.
+  const ASSEMBLE_MS = 200 + (LAYERS - 1) * 150 + 900 + 50;
+
   function frame(now: number) {
     raf = requestAnimationFrame(frame);
-    const t = (now - start) / 1000;
-    smoothP = lerp(smoothP, opts.getProgress(), opts.reducedMotion ? 1 : 0.14);
+    const target = opts.getProgress();
+    const spinTarget = opts.getSpin ? opts.getSpin() : null;
+    const settling =
+      Math.abs(target - smoothP) > 0.0002 ||
+      (spinTarget !== null && Math.abs(spinTarget - lastSpin) > 0.0002) ||
+      Math.abs(pointer.tx - pointer.x) > 0.0005 ||
+      Math.abs(pointer.ty - pointer.y) > 0.0005 ||
+      now - start < ASSEMBLE_MS;
+    if (!settling && !dirty) return;
+    if (opts.maxFps && now - lastRender < 1000 / opts.maxFps - 4) return;
+    lastRender = now;
+    dirty = false;
+
+    smoothP = lerp(smoothP, target, opts.reducedMotion ? 1 : (opts.follow ?? 0.14));
     const p = smoothP;
+    const spin = spinTarget ?? p;
+    lastSpin = spin;
     const { explode, steps } = choreography(p);
 
     pointer.x = lerp(pointer.x, pointer.tx, 0.05);
@@ -219,7 +255,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
     if (mobile) {
       // Phones: stack centred in the upper part of the screen, text below it.
       const cy = 1.5 * lerp(0.135, 1.08, explode);
-      const dist = 19.5 + explode * 2.5;
+      const dist = 19.5 + explode * 4;
       const tilt = 0.42;
       camera.position.set(0, cy + dist * Math.sin(tilt), dist * Math.cos(tilt));
       camera.lookAt(0, cy, 0);
@@ -234,8 +270,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
       rig.position.set(lerp(1.7, 1.95, explode) + outro * 0.1, 0, 0);
     }
 
-    const idle = opts.reducedMotion ? 0 : Math.sin(t * 0.35) * 0.05 * (1 - explode);
-    group.rotation.y = -0.62 + p * 0.5 + idle + pointer.x * 0.08;
+    group.rotation.y = -0.62 + spin * 0.5 + pointer.x * 0.08;
     group.rotation.x = 0.05 + pointer.y * 0.04;
 
     const spacingA = 0.135;
@@ -276,6 +311,7 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
   function play() {
     if (running) return;
     running = true;
+    dirty = true;
     raf = requestAnimationFrame(frame);
   }
   function pause() {

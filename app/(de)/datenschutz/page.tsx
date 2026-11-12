@@ -17,9 +17,10 @@ export default function Datenschutz() {
 
       <h2>Kurz zusammengefasst</h2>
       <p>
-        Diese Website setzt keine Cookies, nutzt keine Analyse- oder Werbedienste und lädt keine Inhalte von
-        Drittanbietern. Schriftarten werden von dieser Website selbst ausgeliefert. Daten fallen nur beim Aufruf der
-        Seite (Server-Protokolle) und an, wenn Sie das Kontaktformular nutzen.
+        Diese Website setzt keine Cookies zu Werbe- oder Analysezwecken und lädt keine Inhalte von Drittanbietern.
+        Schriftarten werden von dieser Website selbst ausgeliefert. Daten fallen beim Aufruf der Seite
+        (Server-Protokolle und eine anonyme Reichweitenmessung ohne Cookies) und an, wenn Sie das Kontaktformular
+        nutzen. Einzige Ausnahme ist ein kleines Cookie, das sich Ihre Sprache merkt.
       </p>
 
       <h2>Hosting und Server-Protokolle</h2>
@@ -29,6 +30,33 @@ export default function Datenschutz() {
         um die Seite auszuliefern und vor Missbrauch zu schützen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO
         (berechtigtes Interesse an einem sicheren und stabilen Betrieb). Vercel ist unter dem EU-US Data Privacy
         Framework zertifiziert; mit Vercel besteht ein Vertrag zur Auftragsverarbeitung.
+      </p>
+
+      <h2>Sprachwahl</h2>
+      <p>
+        Wenn Sie die deutsche Seite aufrufen oder die Sprache wechseln, speichert die Website Ihre Wahl in einem Cookie
+        („carma-lang“, Laufzeit ein Jahr), damit Sie beim nächsten Besuch die gewünschte Sprache sehen. Das Cookie
+        enthält nur „de“ oder „en“ und ist für diese Funktion technisch erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG).
+      </p>
+
+      <h2>Anonyme Reichweitenmessung</h2>
+      <p>
+        Um zu sehen, welche Seiten gelesen werden und ob Anfragen ankommen, nutze ich Vercel Web Analytics (Anbieter
+        wie beim Hosting). Dabei werden keine Cookies gesetzt und keine Daten über Websites hinweg zusammengeführt.
+        Erfasst werden je Aufruf: Zeitpunkt, aufgerufene Seite, verweisende Seite, ungefährer Standort (Land, Region,
+        Stadt), Betriebssystem, Browser und Gerätetyp, außerdem das Antippen einzelner Schaltflächen (z. B.
+        „Anrufen“ oder „Anfrage senden“). Besuche werden über einen Hash aus der Anfrage unterschieden, der nach 24
+        Stunden verworfen wird; IP-Adressen werden dafür nicht gespeichert. Ich sehe nur zusammengefasste Zahlen.
+        Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse, die Website zu verbessern).
+      </p>
+
+      <h2>Persönliche Entwürfe</h2>
+      <p>
+        Betrieben, die ausdrücklich zugestimmt haben, schicke ich manchmal einen kostenlosen Entwurf unter einem
+        persönlichen Link (/fuer/…). Dafür verwende ich öffentlich sichtbare Inhalte ihrer bisherigen Website
+        (Name, Texte, Logo, Bilder, Farben, Telefonnummer). Die Seite ist nur über den Link erreichbar, wird nicht
+        von Suchmaschinen erfasst und nach 30 Tagen samt der verwendeten Bilder gelöscht. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a bzw. b
+        DSGVO. Wenn Sie möchten, dass ich einen Entwurf früher entferne, genügt eine kurze Nachricht.
       </p>
 
       <h2>Kontaktformular</h2>
