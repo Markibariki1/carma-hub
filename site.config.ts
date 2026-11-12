@@ -5,7 +5,7 @@
  */
 export const site = {
   name: 'Carma',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://carma-hub.vercel.app',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.carmasearch.com',
   owner: {
     fullName: 'Marc Haupter',
     street: 'Meersburger Straße 13',
