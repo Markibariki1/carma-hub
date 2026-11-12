@@ -7,11 +7,11 @@ export const site = {
   name: 'Carma',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://carma-hub.vercel.app',
   owner: {
-    fullName: '[Vor- und Nachname]',
-    street: '[Straße und Hausnummer]',
-    city: '[PLZ Ort]',
+    fullName: 'Marc Haupter',
+    street: 'Meersburger Straße 13',
+    city: '88709 Hagnau am Bodensee',
     country: 'Deutschland',
-    email: '[E-Mail-Adresse]',
+    email: 'marchaupter@outlook.com' // swap for the business address once it exists,
     phone: '', // optional, e.g. '+49 …'
     vatId: '', // USt-IdNr., if one exists
   },
