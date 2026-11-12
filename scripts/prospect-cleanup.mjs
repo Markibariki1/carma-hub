@@ -6,8 +6,9 @@
  */
 import { readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(ROOT, 'content', 'prospects');
 const DAY = 24 * 60 * 60 * 1000;
 
