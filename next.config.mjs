@@ -26,6 +26,15 @@ const securityHeaders = [
 
 const nextConfig = {
   poweredByHeader: false,
+  // Addresses from the old Carma car-search app on this domain: send visitors and
+  // search engines to the new site instead of a "not found" page.
+  async redirects() {
+    const toHome = ['/alerts', '/auth/:path*', '/buying-assistance', '/enterprise/:path*', '/enterprise', '/error', '/help', '/login', '/portfolio', '/settings', '/terms', '/account'];
+    return [
+      ...toHome.map((source) => ({ source, destination: '/', permanent: true })),
+      { source: '/privacy', destination: '/datenschutz', permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
