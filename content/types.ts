@@ -56,6 +56,7 @@ export type Dict = {
     buildNote: string;
     care: string;
     careNote: string;
+    from: string;
     perMonth: string;
     vatNote: string;
     termsTitle: string;

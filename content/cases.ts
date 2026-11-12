@@ -83,8 +83,8 @@ export const cases: CaseStudy[] = [
             body: 'Visitors landed on pop-ups and a cropped banner. The pieces themselves were hard to find, and a shopping cart suggested one-click buying, which is not how antiques are sold.',
           },
           {
-            title: 'What I did',
-            body: 'I moved all 117 pieces over with their photos and details, designed a calm gallery that lets each piece breathe, and replaced the cart with an enquiry button that opens WhatsApp with the piece already named.',
+            title: 'What we did',
+            body: 'We moved all 117 pieces over with their photos and details, designed a calm gallery that lets each piece breathe, and replaced the cart with an enquiry button that opens WhatsApp with the piece already named.',
           },
           {
             title: 'Where it is now',
@@ -129,8 +129,8 @@ export const cases: CaseStudy[] = [
             body: 'Besucher landeten auf Pop-ups und einem abgeschnittenen Banner. Die Stücke selbst waren schwer zu finden, und ein Warenkorb versprach Kauf per Klick. So werden Antiquitäten nicht verkauft.',
           },
           {
-            title: 'Was ich gemacht habe',
-            body: 'Ich habe alle 117 Stücke mit Fotos und Angaben übernommen, eine ruhige Galerie gestaltet, in der jedes Stück wirken kann, und den Warenkorb durch einen Anfrage-Button ersetzt, der WhatsApp mit dem Namen des Stücks öffnet.',
+            title: 'Was wir gemacht haben',
+            body: 'Wir haben alle 117 Stücke mit Fotos und Angaben übernommen, eine ruhige Galerie gestaltet, in der jedes Stück wirken kann, und den Warenkorb durch einen Anfrage-Button ersetzt, der WhatsApp mit dem Namen des Stücks öffnet.',
           },
           {
             title: 'Wo es jetzt steht',

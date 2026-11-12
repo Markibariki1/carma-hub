@@ -35,7 +35,8 @@ export function Cost({ t, lang }: { t: Dict['cost']; lang: Lang }) {
                 <div className="price">
                   <dt className="price__label">{t.care}</dt>
                   <dd className="price__value">
-                    {eur(lang, p.carePerMonth, 2)} <span className="price__per">{t.perMonth}</span>
+                    <span className="price__from">{t.from}</span> {eur(lang, p.careFrom, 2)}{' '}
+                    <span className="price__per">{t.perMonth}</span>
                   </dd>
                   <dd className="price__note">{t.careNote}</dd>
                 </div>

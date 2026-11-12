@@ -24,12 +24,16 @@ export const site = {
   },
   /** Portrait for the "who you deal with" block, e.g. '/marc.jpg' in /public. Empty shows initials. */
   photo: '' as string,
-  /** Prices shown on the homepage. Set show to false to go back to "fixed quote after the first call". */
+  /**
+   * Price guide shown on the homepage. Both prices depend on the type and size of the business;
+   * the site shows the build range and the care starting price. Set show to false to go back
+   * to "fixed quote after the first call".
+   */
   pricing: {
     show: true as boolean,
     buildFrom: 500,
     buildTo: 900,
-    carePerMonth: 39.99,
+    careFrom: 39.99,
   },
 } as const;
 

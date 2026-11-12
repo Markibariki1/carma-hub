@@ -41,34 +41,34 @@ export default function Datenschutz() {
 
       <h2>Anonyme Reichweitenmessung</h2>
       <p>
-        Um zu sehen, welche Seiten gelesen werden und ob Anfragen ankommen, nutze ich Vercel Web Analytics (Anbieter
+        Um zu sehen, welche Seiten gelesen werden und ob Anfragen ankommen, nutzen wir Vercel Web Analytics (Anbieter
         wie beim Hosting). Dabei werden keine Cookies gesetzt und keine Daten über Websites hinweg zusammengeführt.
         Erfasst werden je Aufruf: Zeitpunkt, aufgerufene Seite, verweisende Seite, ungefährer Standort (Land, Region,
         Stadt), Betriebssystem, Browser und Gerätetyp, außerdem das Antippen einzelner Schaltflächen (z. B.
         „Anrufen“ oder „Anfrage senden“). Besuche werden über einen Hash aus der Anfrage unterschieden, der nach 24
-        Stunden verworfen wird; IP-Adressen werden dafür nicht gespeichert. Ich sehe nur zusammengefasste Zahlen.
+        Stunden verworfen wird; IP-Adressen werden dafür nicht gespeichert. Wir sehen nur zusammengefasste Zahlen.
         Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse, die Website zu verbessern).
       </p>
 
       <h2>Persönliche Entwürfe</h2>
       <p>
-        Betrieben, die ausdrücklich zugestimmt haben, schicke ich manchmal einen kostenlosen Entwurf unter einem
-        persönlichen Link (/fuer/…). Dafür verwende ich öffentlich sichtbare Inhalte ihrer bisherigen Website
+        Betrieben, die ausdrücklich zugestimmt haben, schicken wir manchmal einen kostenlosen Entwurf unter einem
+        persönlichen Link (/fuer/…). Dafür verwenden wir öffentlich sichtbare Inhalte ihrer bisherigen Website
         (Name, Texte, Logo, Bilder, Farben, Telefonnummer). Die Seite ist nur über den Link erreichbar, wird nicht
         von Suchmaschinen erfasst und nach 30 Tagen samt der verwendeten Bilder gelöscht. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a bzw. b
-        DSGVO. Wenn Sie möchten, dass ich einen Entwurf früher entferne, genügt eine kurze Nachricht.
+        DSGVO. Wenn Sie möchten, dass wir einen Entwurf früher entfernen, genügt eine kurze Nachricht.
       </p>
 
       <h2>Kontaktformular</h2>
       <p>
-        Wenn Sie das Formular nutzen, verarbeite ich Ihre Angaben (Name, E-Mail, Nachricht sowie freiwillig Betrieb,
+        Wenn Sie das Formular nutzen, verarbeiten wir Ihre Angaben (Name, E-Mail, Nachricht sowie freiwillig Betrieb,
         Website und Telefon), um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
         (vorvertragliche Maßnahmen) bzw. lit. f (berechtigtes Interesse an der Beantwortung von Anfragen).
       </p>
       <p>
         Die Nachricht wird über den E-Mail-Dienst Resend (Resend, Inc., 2261 Market Street #5039, San Francisco, CA
-        94114, USA) an mein Postfach zugestellt. Resend ist unter dem EU-US Data Privacy Framework zertifiziert. Ich
-        lösche Anfragen, wenn sie erledigt sind und keine gesetzlichen Aufbewahrungspflichten bestehen.
+        94114, USA) an unser Postfach zugestellt. Resend ist unter dem EU-US Data Privacy Framework zertifiziert. Wir
+        löschen Anfragen, wenn sie erledigt sind und keine gesetzlichen Aufbewahrungspflichten bestehen.
       </p>
 
       <h2>Ihre Rechte</h2>
@@ -80,7 +80,7 @@ export default function Datenschutz() {
         <li>Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21)</li>
         <li>Beschwerde bei einer Datenschutz-Aufsichtsbehörde (Art. 77)</li>
       </ul>
-      <p>Schreiben Sie mir dazu einfach an {o.email}.</p>
+      <p>Schreiben Sie uns dazu einfach an {o.email}.</p>
 
       <p>Stand: November 2026</p>
     </LegalPage>

@@ -16,24 +16,24 @@ const COPY = {
   title: (b: string) => `So könnte ${b} online aussehen.`,
   greeting: (c?: string) => (c ? `Guten Tag ${c},` : 'Guten Tag,'),
   intro:
-    'wie besprochen habe ich mir Ihre Website angesehen und einen ersten Entwurf für die Startseite gebaut, mit Ihrem Namen, Ihren Farben und Ihren Bildern. Er ist kostenlos und unverbindlich.',
+    'wie besprochen haben wir uns Ihre Website angesehen und einen ersten Entwurf für die Startseite gebaut, mit Ihrem Namen, Ihren Farben und Ihren Bildern. Er ist kostenlos und unverbindlich.',
   hint: 'Den Regler ziehen: links Ihre Website heute, rechts der Entwurf.',
   before: 'Heute',
   after: 'Entwurf',
   slider: 'Vergleich zwischen heutiger Website und Entwurf',
   beforeAlt: (b: string) => `Die heutige Startseite von ${b}`,
   afterAlt: (b: string) => `Entwurf einer neuen Startseite für ${b}`,
-  changesTitle: 'Was ich ändern würde',
+  changesTitle: 'Was wir ändern würden',
   changes: [
     'Auf dem Handy gut lesbar und schnell, denn dort sucht heute der Großteil Ihrer Kunden.',
     'Ein klarer Weg zur Anfrage: Anruf, WhatsApp oder Formular, auf jeder Seite.',
     'Texte, Bilder und Öffnungszeiten ändern Sie selbst, ohne Programmierkenntnisse.',
     'Saubere Grundlagen für Google, und alte Links leiten weiter.',
   ],
-  draftNote: 'Ein erster Entwurf aus Ihren öffentlichen Inhalten. Die fertige Seite gestalte ich mit Ihnen gemeinsam.',
+  draftNote: 'Ein erster Entwurf aus Ihren öffentlichen Inhalten. Die fertige Seite gestalten wir mit Ihnen gemeinsam.',
   nextTitle: 'Wie es weitergeht',
   next: 'Wenn Ihnen der Entwurf gefällt, sprechen wir kurz über Ihre Wünsche. Danach bekommen Sie ein schriftliches Festangebot. Wenn nicht, ist das völlig in Ordnung: Sie müssen nichts tun, der Link verschwindet von selbst.',
-  reply: 'Antworten Sie einfach auf meine E-Mail',
+  reply: 'Antworten Sie einfach auf unsere E-Mail',
   expires: (d: string) => `Dieser Entwurf ist nur über diesen Link erreichbar und bis ${d} online.`,
 };
 
