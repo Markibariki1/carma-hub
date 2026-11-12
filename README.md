@@ -8,12 +8,16 @@ Built from the old Carma car-search app (`carmasearchv_b`), keeping only what a 
 
 | Path | What |
 |---|---|
-| `/` | German home page (default) |
-| `/en` | English home page |
+| `/` | English home page (default) |
+| `/de` | German home page |
 | `/impressum` | Impressum (required in Germany) |
 | `/datenschutz` | Privacy policy |
 
-All copy lives in `content/de.ts` and `content/en.ts`. Business details for the Impressum and privacy page live in `site.config.ts`.
+All copy lives in `content/en.ts` and `content/de.ts`.
+
+**Languages:** `proxy.ts` sends first-time visitors to `/de` when their browser's main language is German, or when they are in Germany/Austria and German is among their browser languages. Using the language switch is remembered in a cookie. To add a language, add `content/<lang>.ts`, an `app/(<lang>)` route and a rule in `proxy.ts`.
+
+**The 3D hero** (`components/stack/`): a website shown as four glass layers (content, design, editor, hosting & care) built with three.js. It assembles on load, pulls apart on scroll and walks through the workflow. Layer images are drawn in `textures.ts`; the scroll choreography is in `scene.ts`. Without WebGL the hero falls back to plain text. Smooth scrolling, word-rise headings and parallax live in `components/ScrollFX.tsx`. Business details for the Impressum and privacy page live in `site.config.ts`.
 
 ## Before going live
 

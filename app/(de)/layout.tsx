@@ -4,7 +4,7 @@ import { de } from '@/content/de';
 import { pageMeta } from '@/lib/meta';
 
 export { viewport } from '@/lib/meta';
-export const metadata = pageMeta(de, '/');
+export const metadata = pageMeta(de, '/de');
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

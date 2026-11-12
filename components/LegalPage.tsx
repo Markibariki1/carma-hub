@@ -5,7 +5,7 @@ import { ownerDetailsComplete } from '@/site.config';
 export function LegalPage({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <>
-      <Header t={de} home="/" />
+      <Header t={de} home="/de" solid />
       <main id="main" className="legal">
         <div className="wrap">
           <div className="legal__inner">

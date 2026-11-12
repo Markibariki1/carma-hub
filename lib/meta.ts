@@ -11,7 +11,7 @@ export function pageMeta(t: Dict, path: string): Metadata {
     description: t.meta.description,
     alternates: {
       canonical: path,
-      languages: { de: '/', en: '/en', 'x-default': '/' },
+      languages: { en: '/', de: '/de', 'x-default': '/' },
     },
     openGraph: {
       type: 'website',

@@ -1,20 +1,21 @@
-export type Lang = 'de' | 'en';
+export type Lang = 'en' | 'de';
 
 export type Dict = {
   lang: Lang;
   meta: { title: string; description: string };
-  nav: { services: string; work: string; process: string; contact: string; cta: string; switchTo: string; switchHref: string; switchLabel: string };
-  hero: {
-    title: string;
-    lede: string;
-    primary: string;
-    secondary: string;
-    compareCaption: string;
-    compareHint: string;
-    before: string;
-    after: string;
-    sliderLabel: string;
+  nav: { work: string; services: string; contact: string; cta: string; switchTo: string; switchHref: string; switchLabel: string; skip: string; main: string; legal: string };
+  hero: { title: string; lede: string; primary: string; secondary: string; scrollHint: string };
+  stack: {
+    intro: string;
+    introBody: string;
+    stepWord: string;
+    /** Workflow order: content, design, editor, foundation. */
+    steps: { label: string; title: string; body: string }[];
+    outro: string;
+    outroBody: string;
+    outroCta: string;
   };
+  compare: { title: string; body: string; hint: string; before: string; after: string; sliderLabel: string; beforeAlt: string; afterAlt: string };
   audience: { title: string; body: string; kinds: string[] };
   services: { title: string; intro: string; items: { title: string; body: string }[] };
   work: {
@@ -26,11 +27,14 @@ export type Dict = {
     visit: string;
     phoneCaption: string;
     productCaption: string;
+    productAlt: string;
     collectionCaption: string;
+    collectionAlt: string;
     beforePhone: string;
     afterPhone: string;
+    beforePhoneAlt: string;
+    afterPhoneAlt: string;
   };
-  process: { title: string; steps: { title: string; body: string }[] };
   cost: { title: string; body: string[] };
   faq: { title: string; items: { q: string; a: string }[] };
   contact: {
