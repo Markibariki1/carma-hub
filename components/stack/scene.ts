@@ -227,7 +227,9 @@ export function createScene(canvas: HTMLCanvasElement, opts: Options) {
       rig.position.set(0, 0, 0);
     } else {
       camera.clearViewOffset();
-      camera.position.set(0, 4.4 + explode * 1.6, 9.6 + explode * 3);
+      // Pull back on narrower desktop windows so the stack never runs off the right edge.
+      const fit = Math.max(1, 1.65 / camera.aspect);
+      camera.position.set(0, (4.4 + explode * 1.6) * fit, (9.6 + explode * 3) * fit);
       camera.lookAt(0, 0.45 + explode * 1.45, 0);
       rig.position.set(lerp(1.7, 1.95, explode) + outro * 0.1, 0, 0);
     }
