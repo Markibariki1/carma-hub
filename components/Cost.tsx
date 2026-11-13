@@ -40,6 +40,22 @@ export function Cost({ t, lang }: { t: Dict['cost']; lang: Lang }) {
                   </dd>
                   <dd className="price__note">{t.careNote}</dd>
                 </div>
+                <div className="price price--wide">
+                  <dt className="price__label">
+                    {t.growth} <span className="price__tag">{t.growthTag}</span>
+                  </dt>
+                  <dd className="price__value price__value--small">
+                    {p.growthFrom ? (
+                      <>
+                        <span className="price__from">{t.from}</span> {eur(lang, p.growthFrom, 2)}{' '}
+                        <span className="price__per">{t.perMonth}</span>
+                      </>
+                    ) : (
+                      t.onRequest
+                    )}
+                  </dd>
+                  <dd className="price__note">{t.growthNote}</dd>
+                </div>
               </dl>
               <p className="price__vat" data-reveal>
                 {t.vatNote}

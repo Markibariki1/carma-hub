@@ -17,7 +17,12 @@ export type Dict = {
   };
   compare: { title: string; body: string; hint: string; before: string; after: string; sliderLabel: string; beforeAlt: string; afterAlt: string };
   audience: { title: string; body: string; kinds: string[] };
-  services: { title: string; intro: string; items: { title: string; body: string }[] };
+  services: {
+    title: string;
+    intro: string;
+    /** `tag` marks an optional add-on, e.g. "Optional". */
+    items: { title: string; body: string; tag?: string }[];
+  };
   work: {
     title: string;
     /** Homepage highlight. */
@@ -58,6 +63,10 @@ export type Dict = {
     careNote: string;
     from: string;
     perMonth: string;
+    growth: string;
+    growthTag: string;
+    growthNote: string;
+    onRequest: string;
     vatNote: string;
     termsTitle: string;
     terms: string[];

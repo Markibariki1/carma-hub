@@ -34,6 +34,8 @@ export const site = {
     buildFrom: 500,
     buildTo: 900,
     careFrom: 39.99,
+    /** Optional growth package (articles, links, social posts, report), per month. null shows "Price in your quote". */
+    growthFrom: null as number | null,
   },
 } as const;
 

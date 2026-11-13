@@ -80,6 +80,11 @@ export const de: Dict = {
       { title: 'Kontakt, der ankommt', body: 'WhatsApp-Button auf jeder Seite und ein Formular, das direkt in Ihrem Postfach landet.' },
       { title: 'Gefunden werden', body: 'Schnelle Ladezeiten, saubere Grundlagen für Google und Weiterleitungen, damit alte Links funktionieren.' },
       { title: 'Betreuung', body: 'Hosting, Sicherheits-Updates, Backups und kleine Änderungen jeden Monat. Wenn etwas hakt, kümmern wir uns.' },
+      {
+        title: 'Wachstumspaket',
+        tag: 'Optional',
+        body: 'Mehr Kunden über Google: regelmäßig neue Artikel auf Ihrer Website, Verlinkungen von anderen Websites, Beiträge für Ihr Instagram und ein monatlicher Bericht, wie Sie bei Google und in KI-Assistenten wie ChatGPT gefunden werden.',
+      },
     ],
   },
   work: {
@@ -132,6 +137,10 @@ export const de: Dict = {
     careNote: 'Hosting, Sicherheits-Updates, Backups und kleine Änderungen jeden Monat. Der Betrag richtet sich nach der Größe Ihrer Seite und steht in Ihrem Angebot.',
     from: 'ab',
     perMonth: 'im Monat',
+    growth: 'Wachstumspaket',
+    growthTag: 'Optional',
+    growthNote: 'Artikel auf Ihrer Website, Verlinkungen von anderen Websites, Instagram-Beiträge und ein monatlicher Bericht. Jederzeit dazubuchbar, mit 30 Tagen Frist kündbar.',
+    onRequest: 'Preis im Angebot',
     vatNote: 'Preise für Unternehmen, zzgl. MwSt., sofern sie anfällt.',
     termsTitle: 'Faire Bedingungen, schriftlich',
     terms: [
@@ -154,6 +163,10 @@ export const de: Dict = {
       { q: 'Muss ich neue Texte und Fotos liefern?', a: 'Nein. Wir übernehmen, was auf Ihrer jetzigen Website steht. Bessere Fotos helfen immer, nötig sind sie nicht.' },
       { q: 'Behalte ich meine Domain?', a: 'Ja. Ihre Adresse bleibt Ihre Adresse, sie zeigt danach nur auf die neue Seite.' },
       { q: 'Kann ich später selbst etwas ändern?', a: 'Ja. Sie bekommen Zugang zum Editor und eine kurze Einführung. Größere Umbauten übernehmen wir gern.' },
+      {
+        q: 'Helfen Sie uns auch, über Google mehr Kunden zu finden?',
+        a: 'Ja. Jede Website, die wir bauen, ist schnell und für Google sauber aufgesetzt. Darüber hinaus sorgt das optionale Wachstumspaket jeden Monat für neue Artikel, Verlinkungen von anderen Websites und Social-Media-Beiträge, mit monatlichem Bericht. Ergebnisse bauen sich über einige Monate auf, und Platz 1 bei Google kann Ihnen niemand seriös versprechen.',
+      },
       { q: 'Wem gehört die Website?', a: 'Ihnen. Sobald die Gestaltung bezahlt ist, gehören Website und Inhalte Ihnen.' },
       { q: 'Was passiert, wenn ich die Betreuung kündige?', a: 'Sie können mit 30 Tagen Frist kündigen. Wir helfen Ihnen dann, die Website an einen anderen Ort umzuziehen.' },
     ],

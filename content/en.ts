@@ -80,6 +80,11 @@ export const en: Dict = {
       { title: 'Contact that arrives', body: 'A WhatsApp button on every page and a form that lands straight in your inbox.' },
       { title: 'Getting found', body: 'Fast loading, clean foundations for Google, and redirects so old links keep working.' },
       { title: 'Care', body: 'Hosting, security updates, backups and small changes every month. If something breaks, we fix it.' },
+      {
+        title: 'Growth package',
+        tag: 'Optional',
+        body: 'More customers from Google: regular articles on your website, links from other websites, posts for your Instagram, and a monthly report on how you are found on Google and in AI assistants like ChatGPT.',
+      },
     ],
   },
   work: {
@@ -132,6 +137,10 @@ export const en: Dict = {
     careNote: 'Hosting, security updates, backups and small changes every month. The amount depends on the size of your site and is part of your quote.',
     from: 'from',
     perMonth: 'a month',
+    growth: 'Growth package',
+    growthTag: 'Optional',
+    growthNote: 'Articles on your website, links from other websites, Instagram posts and a monthly report. Add it whenever you like and cancel with 30 days’ notice.',
+    onRequest: 'Price in your quote',
     vatNote: 'Prices for businesses, plus VAT where it applies.',
     termsTitle: 'Fair terms, in writing',
     terms: [
@@ -154,6 +163,10 @@ export const en: Dict = {
       { q: 'Do I need to provide new texts and photos?', a: 'No. We move over what is on your current website. Better photos always help, but they are not required.' },
       { q: 'Do I keep my domain?', a: 'Yes. Your address stays yours; it simply points to the new site.' },
       { q: 'Can I change things myself later?', a: 'Yes. You get access to the editor and a short walkthrough. We are happy to take on bigger changes.' },
+      {
+        q: 'Can you help us get more customers from Google?',
+        a: 'Yes. Every site we build is fast and set up properly for Google. On top of that, the optional growth package keeps new articles, links from other websites and social media posts coming every month, with a monthly report. Results build over a few months, and nobody can honestly promise you first place on Google.',
+      },
       { q: 'Who owns the website?', a: 'You do. Once the design and build fee is paid, the site and its content are yours.' },
       { q: 'What if I cancel the care plan?', a: 'You can cancel with 30 days’ notice, and we will help you move the site somewhere else.' },
     ],

@@ -115,7 +115,10 @@ export function Home({ t }: { t: Dict }) {
                   <span className="service__n" aria-hidden="true">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <p className="service__title">{s.title}</p>
+                  <p className="service__title">
+                    {s.title}
+                    {s.tag ? <span className="service__tag">{s.tag}</span> : null}
+                  </p>
                   <p className="service__body">{s.body}</p>
                 </li>
               ))}

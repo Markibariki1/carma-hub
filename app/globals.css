@@ -1394,6 +1394,49 @@ html:not(.fx) .service {
   font-variant-numeric: tabular-nums;
   margin-top: 8px;
 }
+.price--wide {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  align-items: baseline;
+  column-gap: 32px;
+}
+.price--wide .price__label {
+  grid-column: 1;
+}
+.price--wide .price__value {
+  grid-column: 1;
+}
+.price--wide .price__note {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+.price__value--small {
+  font-size: var(--step-2);
+  letter-spacing: -0.02em;
+}
+.price__tag,
+.service__tag {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--blue-pale);
+  color: var(--blue-ink);
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+@media (max-width: 640px) {
+  .price--wide {
+    grid-template-columns: 1fr;
+  }
+  .price--wide .price__note {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
 .price__from {
   font-size: var(--step-0);
   font-weight: 500;
