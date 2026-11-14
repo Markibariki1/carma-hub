@@ -2204,10 +2204,56 @@ html:not(.fx) .service {
   min-width: 62px;
   color: var(--muted);
 }
-.send__preview-subject {
-  font-weight: 600;
+.send__edit {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+.send__edit > span {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.send__edit input,
+.send__edit textarea {
+  width: 100%;
+  font: inherit;
   color: var(--ink);
-  padding-bottom: 16px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--line);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.send__edit input {
+  font-weight: 600;
+  min-height: 48px;
+}
+.send__edit textarea {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  resize: none;
+  overflow: hidden;
+  min-height: 240px;
+}
+.send__edit input:focus,
+.send__edit textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 22%, transparent);
+}
+.send__logo {
+  margin-top: 18px;
+}
+.send__link {
+  font: inherit;
+  font-weight: 600;
+  color: var(--blue);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.send__choice:disabled {
+  opacity: 0.45;
 }

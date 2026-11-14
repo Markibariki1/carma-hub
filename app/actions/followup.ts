@@ -1,7 +1,7 @@
 'use server';
 import { cookies } from 'next/headers';
 import { site } from '@/site.config';
-import { buildFollowUp, parseEuro } from '@/lib/followup';
+import { LOGO, PLACEHOLDER, cleanText, textToHtml } from '@/lib/followup';
 import { SEND_COOKIE, isSignedIn, same, sessionToken } from '@/lib/sendAuth';
 
 /**
@@ -40,58 +40,27 @@ export async function signIn(_prev: SignInState, form: FormData): Promise<SignIn
 
 export type SendValues = {
   to: string;
-  lang: 'de' | 'en';
-  salutation: 'f' | 'm';
-  lastName: string;
-  business: string;
-  buildFee: string;
-  careFee: string;
-  growthFee: string;
-  sentence: string;
-  weeks: string;
-  callDate: string;
+  /** Subject and text exactly as shown (and possibly edited) on the /send page. */
+  subject: string;
+  text: string;
   /** Made once per composed email, so a double tap cannot send it twice. */
   key: string;
 };
 
 export type SendResult =
   | { ok: true; to: string; subject: string }
-  | { ok: false; error: 'auth' | 'missing' | 'email' | 'amount' | 'unavailable' | 'failed'; detail?: string };
-
-function berlinToday() {
-  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin' }).format(new Date());
-}
+  | { ok: false; error: 'auth' | 'missing' | 'email' | 'placeholder' | 'unavailable' | 'failed'; detail?: string };
 
 export async function sendFollowUp(v: SendValues): Promise<SendResult> {
   if (!(await isSignedIn())) return { ok: false, error: 'auth' };
 
   const to = String(v.to ?? '').trim().slice(0, 200);
-  const lastName = String(v.lastName ?? '').trim().slice(0, 120);
-  const business = String(v.business ?? '').trim().slice(0, 160);
-  if (!to || !lastName || !business) return { ok: false, error: 'missing' };
+  const subject = String(v.subject ?? '').replace(/\s+/g, ' ').trim().slice(0, 200);
+  const text = cleanText(String(v.text ?? '')).slice(0, 20000);
+  if (!to || !subject || !text) return { ok: false, error: 'missing' };
   if (!/^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]+$/.test(to)) return { ok: false, error: 'email' };
-
-  const buildFee = parseEuro(String(v.buildFee ?? ''));
-  const careFee = parseEuro(String(v.careFee ?? ''));
-  const growthFee = parseEuro(String(v.growthFee ?? ''));
-  const weeksRaw = String(v.weeks ?? '').trim();
-  const weeks = weeksRaw ? Number(weeksRaw) : null;
-  if ([buildFee, careFee, growthFee].some((n) => n !== null && (Number.isNaN(n) || n <= 0))) return { ok: false, error: 'amount' };
-  if (weeks !== null && (!Number.isInteger(weeks) || weeks < 1 || weeks > 52)) return { ok: false, error: 'amount' };
-
-  const mail = buildFollowUp({
-    lang: v.lang === 'en' ? 'en' : 'de',
-    salutation: v.salutation === 'm' ? 'm' : 'f',
-    lastName,
-    business,
-    buildFee,
-    careFee,
-    growthFee,
-    sentence: String(v.sentence ?? '').slice(0, 1000),
-    weeks,
-    callDate: /^\d{4}-\d{2}-\d{2}$/.test(String(v.callDate ?? '')) ? v.callDate : '',
-    today: berlinToday(),
-  });
+  // Never send an email that still has a [placeholder] in it.
+  if (PLACEHOLDER.test(subject) || PLACEHOLDER.test(text)) return { ok: false, error: 'placeholder' };
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -100,6 +69,8 @@ export async function sendFollowUp(v: SendValues): Promise<SendResult> {
   }
   const from = process.env.FOLLOWUP_FROM || `${site.owner.fullName} | ${site.name} <${site.owner.email}>`;
   const bcc = process.env.FOLLOWUP_BCC || site.owner.email;
+  // Email programs load the logo from the live website.
+  const logoUrl = `https://www.carmasearch.com${LOGO.path}`;
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -114,9 +85,9 @@ export async function sendFollowUp(v: SendValues): Promise<SendResult> {
         to: [to],
         bcc: [bcc],
         reply_to: site.owner.email,
-        subject: mail.subject,
-        text: mail.text,
-        html: mail.html,
+        subject,
+        text: `${text}\n`,
+        html: textToHtml(text, logoUrl),
       }),
       cache: 'no-store',
     });
@@ -129,7 +100,7 @@ export async function sendFollowUp(v: SendValues): Promise<SendResult> {
       } catch {}
       return { ok: false, error: 'failed', detail };
     }
-    return { ok: true, to, subject: mail.subject };
+    return { ok: true, to, subject };
   } catch (err) {
     console.error('[followup] network error', err);
     return { ok: false, error: 'failed' };

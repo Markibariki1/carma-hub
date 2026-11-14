@@ -1,15 +1,28 @@
 'use client';
 
-import { useEffect, useMemo, useState, useTransition } from 'react';
-import { sendFollowUp, type SendResult, type SendValues } from '@/app/actions/followup';
-import { buildFollowUp, parseEuro } from '@/lib/followup';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { sendFollowUp, type SendResult } from '@/app/actions/followup';
+import { LOGO, PLACEHOLDER, draftFollowUp, parseEuro, type FollowUpKind } from '@/lib/followup';
 import { site } from '@/site.config';
 
-type Fields = Omit<SendValues, 'key'>;
+type Fields = {
+  to: string;
+  kind: FollowUpKind;
+  lang: 'de' | 'en';
+  salutation: 'f' | 'm';
+  lastName: string;
+  business: string;
+  buildFee: string;
+  careFee: string;
+  growthFee: string;
+  sentence: string;
+  weeks: string;
+  callDate: string;
+};
 
 const STORE = 'carma-send-defaults';
 /** Kept between emails on this device: these rarely change from call to call. */
-type Defaults = Pick<Fields, 'lang' | 'weeks'>;
+type Defaults = Pick<Fields, 'kind' | 'lang' | 'weeks'>;
 
 function berlinToday() {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin' }).format(new Date());
@@ -18,6 +31,7 @@ function berlinToday() {
 function blank(defaults: Partial<Defaults> = {}): Fields {
   return {
     to: '',
+    kind: defaults.kind ?? 'offer',
     lang: defaults.lang ?? 'de',
     salutation: 'f',
     lastName: '',
@@ -34,7 +48,11 @@ function blank(defaults: Partial<Defaults> = {}): Fields {
 function loadDefaults(): Partial<Defaults> {
   try {
     const d = JSON.parse(localStorage.getItem(STORE) ?? '{}');
-    return { lang: d.lang === 'en' ? 'en' : 'de', weeks: typeof d.weeks === 'string' ? d.weeks : '' };
+    return {
+      kind: d.kind === 'info' ? 'info' : 'offer',
+      lang: d.lang === 'en' ? 'en' : 'de',
+      weeks: typeof d.weeks === 'string' ? d.weeks : '',
+    };
   } catch {
     return {};
   }
@@ -48,9 +66,9 @@ function saveDefaults(d: Defaults) {
 
 const ERRORS: Record<Exclude<SendResult, { ok: true }>['error'], string> = {
   auth: 'You have been signed out. Reload the page and enter the password again.',
-  missing: 'Email address, last name and business name are needed.',
+  missing: 'The email address, subject and text are needed.',
   email: 'That email address does not look right.',
-  amount: 'Check the amounts: plain numbers such as 500 or 39,99.',
+  placeholder: 'The email still has a [placeholder] in it.',
   unavailable: 'Sending is not set up yet: RESEND_API_KEY is missing in Vercel.',
   failed: 'The email could not be sent.',
 };
@@ -58,45 +76,51 @@ const ERRORS: Record<Exclude<SendResult, { ok: true }>['error'], string> = {
 export function SendTool({ sendingReady }: { sendingReady: boolean }) {
   const [v, setV] = useState<Fields>(() => blank());
   const [today, setToday] = useState('');
+  /** Subject and text once they have been changed by hand; null while they follow the form. */
+  const [edited, setEdited] = useState<{ subject: string; text: string } | null>(null);
   const [confirmKey, setConfirmKey] = useState<string | null>(null);
   const [result, setResult] = useState<SendResult | null>(null);
   const [pending, startTransition] = useTransition();
+  const body = useRef<HTMLTextAreaElement>(null);
 
-  // Today's date and the remembered language/timing are only known in the browser.
+  // Today's date and the remembered choices are only known in the browser.
   useEffect(() => {
     const t = berlinToday();
     setToday(t);
     setV((cur) => ({ ...cur, ...loadDefaults(), callDate: t }));
   }, []);
 
-  function set<K extends keyof Fields>(key: K, value: Fields[K]) {
-    setV((cur) => ({ ...cur, [key]: value }));
+  function touched() {
     setConfirmKey(null);
     setResult(null);
   }
+  function set<K extends keyof Fields>(key: K, value: Fields[K]) {
+    setV((cur) => ({ ...cur, [key]: value }));
+    touched();
+  }
 
+  const offer = v.kind === 'offer';
   const amounts = {
     buildFee: parseEuro(v.buildFee),
     careFee: parseEuro(v.careFee),
     growthFee: parseEuro(v.growthFee),
   };
-  const badAmount = Object.values(amounts).some((n) => n !== null && (Number.isNaN(n) || n <= 0));
+  const bad = (n: number | null) => n !== null && (Number.isNaN(n) || n <= 0);
+  const badAmount = offer && Object.values(amounts).some(bad);
   const weeks = v.weeks.trim() ? Number(v.weeks) : null;
-  const badWeeks = weeks !== null && (!Number.isInteger(weeks) || weeks < 1 || weeks > 52);
-  const emailOk = /^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]+$/.test(v.to.trim());
-  const complete = Boolean(v.to.trim() && v.lastName.trim() && v.business.trim());
-  const ready = complete && emailOk && !badAmount && !badWeeks;
+  const badWeeks = offer && weeks !== null && (!Number.isInteger(weeks) || weeks < 1 || weeks > 52);
 
-  const mail = useMemo(
+  const draft = useMemo(
     () =>
-      buildFollowUp({
+      draftFollowUp({
+        kind: v.kind,
         lang: v.lang,
         salutation: v.salutation,
-        lastName: v.lastName || (v.lang === 'de' ? '[Nachname]' : '[Last name]'),
-        business: v.business || (v.lang === 'de' ? '[Firmenname]' : '[Business name]'),
-        buildFee: Number.isNaN(amounts.buildFee) ? null : amounts.buildFee,
-        careFee: Number.isNaN(amounts.careFee) ? null : amounts.careFee,
-        growthFee: Number.isNaN(amounts.growthFee) ? null : amounts.growthFee,
+        lastName: v.lastName,
+        business: v.business.trim() || (v.lang === 'de' ? '[Firmenname]' : '[Business name]'),
+        buildFee: bad(amounts.buildFee) ? null : amounts.buildFee,
+        careFee: bad(amounts.careFee) ? null : amounts.careFee,
+        growthFee: bad(amounts.growthFee) ? null : amounts.growthFee,
         sentence: v.sentence,
         weeks: badWeeks ? null : weeks,
         callDate: v.callDate,
@@ -105,6 +129,33 @@ export function SendTool({ sendingReady }: { sendingReady: boolean }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [v, today],
   );
+  const mail = edited ?? draft;
+
+  // The text box grows with the email, so the whole message is visible without scrolling inside it.
+  useLayoutEffect(() => {
+    const el = body.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight + 2}px`;
+  }, [mail.text, result]);
+
+  const emailOk = /^[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]+$/.test(v.to.trim());
+  const placeholder = PLACEHOLDER.test(mail.subject) || PLACEHOLDER.test(mail.text);
+  const empty = !mail.subject.trim() || !mail.text.trim();
+  const ready = emailOk && !placeholder && !empty && !badAmount && !badWeeks;
+
+  let blocker = '';
+  if (!v.to.trim()) blocker = 'Enter the client’s email address.';
+  else if (!emailOk) blocker = ERRORS.email;
+  else if (badAmount) blocker = 'Check the amounts: plain numbers such as 500 or 39,99.';
+  else if (badWeeks) blocker = 'Weeks until launch must be a whole number from 1 to 52.';
+  else if (empty) blocker = 'The subject and the text cannot be empty.';
+  else if (placeholder)
+    blocker = edited
+      ? 'The text still has a [placeholder] in it. Replace it or reset the text.'
+      : !v.business.trim()
+        ? 'Enter the business name.'
+        : 'Enter the build fee.';
 
   function send() {
     if (!confirmKey) return;
@@ -112,18 +163,19 @@ export function SendTool({ sendingReady }: { sendingReady: boolean }) {
     startTransition(async () => {
       let res: SendResult;
       try {
-        res = await sendFollowUp({ ...v, key });
+        res = await sendFollowUp({ to: v.to, subject: mail.subject, text: mail.text, key });
       } catch {
         res = { ok: false, error: 'failed', detail: 'No connection to the server.' };
       }
       setResult(res);
       setConfirmKey(null);
-      if (res.ok) saveDefaults({ lang: v.lang, weeks: v.weeks });
+      if (res.ok) saveDefaults({ kind: v.kind, lang: v.lang, weeks: v.weeks });
     });
   }
 
   function next() {
-    setV({ ...blank({ lang: v.lang, weeks: v.weeks }), callDate: berlinToday() });
+    setV({ ...blank({ kind: v.kind, lang: v.lang, weeks: v.weeks }), callDate: berlinToday() });
+    setEdited(null);
     setResult(null);
     setConfirmKey(null);
     window.scrollTo({ top: 0 });
@@ -143,10 +195,16 @@ export function SendTool({ sendingReady }: { sendingReady: boolean }) {
     );
   }
 
-  const hint =
-    amounts.buildFee === null
-      ? 'No build fee: sends the short version with the price range and asks for details.'
-      : 'Build fee given: sends the full version with a fixed quote.';
+  const seg = <T extends string>(name: string, value: T, options: [T, string][], onPick: (o: T) => void) => (
+    <div className="send__seg">
+      {options.map(([o, label]) => (
+        <label key={o}>
+          <input type="radio" name={name} checked={value === o} onChange={() => onPick(o)} />
+          <span>{label}</span>
+        </label>
+      ))}
+    </div>
+  );
 
   return (
     <div className="send__grid">
@@ -163,6 +221,32 @@ export function SendTool({ sendingReady }: { sendingReady: boolean }) {
             Preview works, but sending is not set up yet: add <code>RESEND_API_KEY</code> in Vercel.
           </p>
         )}
+
+        <fieldset className="send__choice">
+          <legend className="field__label">Which email</legend>
+          {seg(
+            'kind',
+            v.kind,
+            [
+              ['offer', 'Offer'],
+              ['info', 'More information'],
+            ],
+            (o) => set('kind', o),
+          )}
+        </fieldset>
+
+        <fieldset className="send__choice">
+          <legend className="field__label">Language</legend>
+          {seg(
+            'lang',
+            v.lang,
+            [
+              ['de', 'Deutsch'],
+              ['en', 'English'],
+            ],
+            (o) => set('lang', o),
+          )}
+        </fieldset>
 
         <label className="field">
           <span className="field__label">Client’s email</span>
@@ -185,65 +269,59 @@ export function SendTool({ sendingReady }: { sendingReady: boolean }) {
         </label>
 
         <div className="form__row">
-          <fieldset className="send__choice">
-            <legend className="field__label">Addressed as</legend>
-            <div className="send__seg">
-              {(['f', 'm'] as const).map((s) => (
-                <label key={s}>
-                  <input type="radio" name="salutation" checked={v.salutation === s} onChange={() => set('salutation', s)} />
-                  <span>{v.lang === 'de' ? (s === 'f' ? 'Frau' : 'Herr') : s === 'f' ? 'Ms' : 'Mr'}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
           <label className="field">
-            <span className="field__label">Last name</span>
+            <span className="field__label">
+              Last name <span className="field__opt">if known</span>
+            </span>
             <input type="text" autoComplete="off" value={v.lastName} onChange={(e) => set('lastName', e.target.value)} maxLength={120} />
           </label>
+          <fieldset className="send__choice" disabled={!v.lastName.trim()}>
+            <legend className="field__label">Addressed as</legend>
+            {seg(
+              'salutation',
+              v.salutation,
+              v.lang === 'de'
+                ? [
+                    ['f', 'Frau'],
+                    ['m', 'Herr'],
+                  ]
+                : [
+                    ['f', 'Ms'],
+                    ['m', 'Mr'],
+                  ],
+              (o) => set('salutation', o),
+            )}
+          </fieldset>
         </div>
 
-        <div className="form__row">
-          <label className="field">
-            <span className="field__label">
-              Build fee, one-off (€) <span className="field__opt">empty = quote to follow</span>
-            </span>
-            <input
-              type="text"
-              inputMode="decimal"
-              placeholder="500"
-              value={v.buildFee}
-              onChange={(e) => set('buildFee', e.target.value)}
-              aria-invalid={amounts.buildFee !== null && (Number.isNaN(amounts.buildFee) || amounts.buildFee <= 0)}
-            />
-          </label>
-          <label className="field">
-            <span className="field__label">
-              Per month (€) <span className="field__opt">empty = {String(site.pricing.careFrom).replace('.', ',')}</span>
-            </span>
-            <input
-              type="text"
-              inputMode="decimal"
-              placeholder="40"
-              value={v.careFee}
-              onChange={(e) => set('careFee', e.target.value)}
-              disabled={amounts.buildFee === null}
-              aria-invalid={amounts.careFee !== null && (Number.isNaN(amounts.careFee) || amounts.careFee <= 0)}
-            />
-          </label>
-        </div>
-        <p className="send__hint">{hint}</p>
-
-        <fieldset className="send__choice">
-          <legend className="field__label">Language</legend>
-          <div className="send__seg">
-            {(['de', 'en'] as const).map((l) => (
-              <label key={l}>
-                <input type="radio" name="lang" checked={v.lang === l} onChange={() => set('lang', l)} />
-                <span>{l === 'de' ? 'Deutsch' : 'English'}</span>
-              </label>
-            ))}
+        {offer && (
+          <div className="form__row">
+            <label className="field">
+              <span className="field__label">Build fee, one-off (€)</span>
+              <input
+                type="text"
+                inputMode="decimal"
+                placeholder="500"
+                value={v.buildFee}
+                onChange={(e) => set('buildFee', e.target.value)}
+                aria-invalid={bad(amounts.buildFee)}
+              />
+            </label>
+            <label className="field">
+              <span className="field__label">
+                Per month (€) <span className="field__opt">empty = {String(site.pricing.careFrom).replace('.', ',')}</span>
+              </span>
+              <input
+                type="text"
+                inputMode="decimal"
+                placeholder="40"
+                value={v.careFee}
+                onChange={(e) => set('careFee', e.target.value)}
+                aria-invalid={bad(amounts.careFee)}
+              />
+            </label>
           </div>
-        </fieldset>
+        )}
 
         <label className="field">
           <span className="field__label">
@@ -265,37 +343,48 @@ export function SendTool({ sendingReady }: { sendingReady: boolean }) {
         <details className="send__more">
           <summary>More options</summary>
           <div className="form send__more-body">
-            <div className="form__row">
-              <label className="field">
-                <span className="field__label">Day of the call</span>
-                <input type="date" value={v.callDate} max={today || undefined} onChange={(e) => set('callDate', e.target.value)} />
-              </label>
-              <label className="field">
-                <span className="field__label">
-                  Weeks until launch <span className="field__opt">empty = not mentioned</span>
-                </span>
-                <input type="text" inputMode="numeric" placeholder="3" value={v.weeks} onChange={(e) => set('weeks', e.target.value)} aria-invalid={badWeeks} />
-              </label>
-            </div>
             <label className="field">
-              <span className="field__label">
-                Growth package per month (€) <span className="field__opt">empty = not offered</span>
-              </span>
-              <input
-                type="text"
-                inputMode="decimal"
-                value={v.growthFee}
-                onChange={(e) => set('growthFee', e.target.value)}
-                disabled={amounts.buildFee === null}
-                aria-invalid={amounts.growthFee !== null && (Number.isNaN(amounts.growthFee) || amounts.growthFee <= 0)}
-              />
+              <span className="field__label">Day of the call</span>
+              <input type="date" value={v.callDate} max={today || undefined} onChange={(e) => set('callDate', e.target.value)} />
             </label>
+            {offer && (
+              <div className="form__row">
+                <label className="field">
+                  <span className="field__label">
+                    Weeks until launch <span className="field__opt">optional</span>
+                  </span>
+                  <input type="text" inputMode="numeric" placeholder="3" value={v.weeks} onChange={(e) => set('weeks', e.target.value)} aria-invalid={badWeeks} />
+                </label>
+                <label className="field">
+                  <span className="field__label">
+                    Growth package (€/month) <span className="field__opt">optional</span>
+                  </span>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    value={v.growthFee}
+                    onChange={(e) => set('growthFee', e.target.value)}
+                    aria-invalid={bad(amounts.growthFee)}
+                  />
+                </label>
+              </div>
+            )}
           </div>
         </details>
 
-        {(badAmount || badWeeks) && (
-          <p className="form__error" role="alert">
-            {badWeeks ? 'Weeks until launch must be a whole number from 1 to 52.' : ERRORS.amount}
+        {edited && (
+          <p className="send__note" role="status">
+            You changed the text by hand, so the fields here no longer update it.{' '}
+            <button
+              type="button"
+              className="send__link"
+              onClick={() => {
+                setEdited(null);
+                touched();
+              }}
+            >
+              Reset the text
+            </button>
           </p>
         )}
         {result && !result.ok && (
@@ -322,23 +411,47 @@ export function SendTool({ sendingReady }: { sendingReady: boolean }) {
               <button className="btn btn--primary" type="submit" disabled={!ready}>
                 Send email
               </button>
-              {!ready && <p className="form__privacy">Fill in the email address, business name and last name first.</p>}
+              {blocker && <p className="form__privacy">{blocker}</p>}
             </>
           )}
         </div>
       </form>
 
-      <section className="send__preview" aria-label="Preview">
+      <section className="send__preview" aria-label="The email">
         <p className="send__preview-meta">
           <span>From</span> {site.owner.fullName} | {site.name} &lt;{site.owner.email}&gt;
         </p>
         <p className="send__preview-meta">
           <span>To</span> {v.to.trim() || '…'}
         </p>
-        <p className="send__preview-meta send__preview-subject">
-          <span>Subject</span> {mail.subject}
-        </p>
-        <div className="send__preview-body" dangerouslySetInnerHTML={{ __html: mail.html }} />
+        <label className="send__edit send__edit--subject">
+          <span>Subject</span>
+          <input
+            type="text"
+            value={mail.subject}
+            maxLength={200}
+            onChange={(e) => {
+              setEdited({ ...mail, subject: e.target.value });
+              touched();
+            }}
+          />
+        </label>
+        <label className="send__edit">
+          <span className="send__edit-hint">Tap the text to change anything. Lines starting with “- ” become bullet points.</span>
+          <textarea
+            ref={body}
+            value={mail.text}
+            maxLength={20000}
+            spellCheck
+            lang={v.lang}
+            onChange={(e) => {
+              setEdited({ ...mail, text: e.target.value });
+              touched();
+            }}
+          />
+        </label>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="send__logo" src={LOGO.path} width={LOGO.width} height={LOGO.height} alt="Carma logo, added under the email" />
       </section>
     </div>
   );

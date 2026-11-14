@@ -42,11 +42,12 @@ Always open the draft before sending the link; adjust the headline, colour or ph
 
 ## Follow-up emails (`/send`)
 
-After a call, open `/send` (save it to the phone's home screen), enter the client's email, business name, last name, the build fee and the monthly fee, check the preview and send. The email goes out from support@carmasearch.com with a copy (BCC) to the same address, and replies land there.
+After a call, open `/send` (save it to the phone's home screen), pick the email, enter the client's email and business name, and for an offer the build fee and the monthly fee. The email appears next to the form and can be edited freely before sending. It goes out from support@carmasearch.com with a copy (BCC) to the same address, and replies land there.
 
-- **Build fee filled in:** the full version with a fixed quote. **Build fee empty:** the short version with the price range from `site.config.ts` that asks for details.
-- German or English, Frau/Herr; the sentence from the call is optional but recommended. "More options" has the day of the call, weeks until launch and the growth package price.
-- **Wording:** `lib/followup.ts` (follows the project doc "Follow-up email after a phone call"). The preview and the sent email come from the same code.
+- **Four emails:** "Offer" (fixed build fee and monthly fee) and "More information" (price range from `site.config.ts`), each in German and English.
+- The last name is optional (without it the email opens with "Guten Tag," / "Hello,"). The sentence from the call is optional but recommended. "More options" has the day of the call, weeks until launch and the growth package price.
+- **Editing:** once the text is changed by hand, the form fields no longer update it ("Reset the text" goes back). An email that still contains a `[placeholder]` cannot be sent.
+- **Wording:** `lib/followup.ts`. The logo under the signature is `public/email/carma-logo.png`.
 - **Vercel environment variables:** `SEND_PASSWORD` (the page stays locked without it; changing it signs every device out) and `RESEND_API_KEY` (shared with the contact form). Optional: `FOLLOWUP_FROM`, `FOLLOWUP_BCC`. The domain carmasearch.com must be verified in Resend.
 
 ## Before going live
