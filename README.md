@@ -13,6 +13,7 @@ Built from the old Carma car-search app (`carmasearchv_b`), keeping only what a 
 | `/work/<slug>`, `/de/arbeiten/<slug>` | Case studies (English, German) |
 | `/fuer/<token>` | Private draft pages for prospects (German, not indexed, expire after 30 days) |
 | `/impressum`, `/datenschutz` | Legal pages (German) |
+| `/send` | Private page for sending the follow-up email after a phone call (password, not indexed) |
 
 Any other address shows a bilingual 404 (`app/global-not-found.tsx`).
 
@@ -38,6 +39,15 @@ A personal page showing a business its current home page next to a first draft i
 - **Locally:** `node scripts/prospect.mjs --url www.example.de --name "Bäckerei Beispiel" --contact "Frau Berger"` (set `CHROME_PATH` or run `npx playwright-core install chromium` first), then commit and push.
 
 Always open the draft before sending the link; adjust the headline, colour or photo in `content/prospects/<token>.json` if the script picked something odd. Pages stop working after 30 days, and the same workflow deletes expired drafts and their images every night (`scripts/prospect-cleanup.mjs`).
+
+## Follow-up emails (`/send`)
+
+After a call, open `/send` (save it to the phone's home screen), enter the client's email, business name, last name, the build fee and the monthly fee, check the preview and send. The email goes out from support@carmasearch.com with a copy (BCC) to the same address, and replies land there.
+
+- **Build fee filled in:** the full version with a fixed quote. **Build fee empty:** the short version with the price range from `site.config.ts` that asks for details.
+- German or English, Frau/Herr; the sentence from the call is optional but recommended. "More options" has the day of the call, weeks until launch and the growth package price.
+- **Wording:** `lib/followup.ts` (follows the project doc "Follow-up email after a phone call"). The preview and the sent email come from the same code.
+- **Vercel environment variables:** `SEND_PASSWORD` (the page stays locked without it; changing it signs every device out) and `RESEND_API_KEY` (shared with the contact form). Optional: `FOLLOWUP_FROM`, `FOLLOWUP_BCC`. The domain carmasearch.com must be verified in Resend.
 
 ## Before going live
 
