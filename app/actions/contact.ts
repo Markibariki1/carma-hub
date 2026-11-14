@@ -46,7 +46,8 @@ export async function sendEnquiry(_prev: ContactState, form: FormData): Promise<
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO || site.owner.email;
-  const from = process.env.CONTACT_FROM || 'Carma <onboarding@resend.dev>';
+  // The sender must be on the domain verified in Resend (carmasearch.com).
+  const from = process.env.CONTACT_FROM || `${site.name} <${site.owner.email}>`;
   if (!apiKey || !to) {
     console.error('[contact] RESEND_API_KEY or CONTACT_TO is not set');
     return { status: 'error', reason: 'unavailable' };
