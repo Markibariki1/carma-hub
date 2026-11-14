@@ -62,6 +62,7 @@ export type Dict = {
     care: string;
     careNote: string;
     from: string;
+    once: string;
     perMonth: string;
     growth: string;
     growthTag: string;

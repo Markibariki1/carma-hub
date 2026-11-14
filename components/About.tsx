@@ -5,23 +5,15 @@ import { RiseText } from './RiseText';
 /** "Who you deal with": a face, a name, a town, and direct ways to reach Marc. */
 export function About({ t }: { t: Dict['about'] }) {
   const { phone, whatsapp } = site.contact;
-  const initials = t.name
-    .split(' ')
-    .map((p) => p[0])
-    .join('');
   return (
     <section className="about" aria-labelledby="about-title">
-      <div className="wrap about__inner">
-        <div className="about__portrait" data-reveal>
-          {site.photo ? (
-            // eslint-disable-next-line @next/next/no-img-element
+      <div className={`wrap about__inner${site.photo ? '' : ' about__inner--text'}`}>
+        {site.photo ? (
+          <div className="about__portrait">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={site.photo} alt={t.name} width={800} height={1000} loading="lazy" decoding="async" />
-          ) : (
-            <span className="about__initials" aria-hidden="true">
-              {initials}
-            </span>
-          )}
-        </div>
+          </div>
+        ) : null}
         <div className="about__text">
           <RiseText id="about-title" className="h2" text={t.title} />
           {t.body.map((p) => (
