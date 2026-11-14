@@ -113,13 +113,13 @@ export const de: Dict = {
     afterPhoneAlt: 'Neue Website auf dem Handy',
   },
   about: {
-    title: 'Ihr Ansprechpartner bei Carma.',
+    title: 'Mit wem Sie arbeiten.',
     body: [
-      'Carma sitzt in Hagnau am Bodensee. Marc Haupter leitet jedes Projekt und ist Ihr Ansprechpartner, vom ersten Gespräch bis zum Start und darüber hinaus.',
+      'Marc Haupter leitet jedes Projekt und ist Ihr Ansprechpartner, vom ersten Gespräch bis zum Start und darüber hinaus.',
       'Kein Vertrieb, kein Callcenter: Wer mit Ihnen spricht, gestaltet und baut auch Ihre Seite und ist erreichbar, wenn Sie später etwas ändern möchten.',
     ],
     name: 'Marc Haupter',
-    place: 'Hagnau am Bodensee',
+    place: 'Gründer, Gestaltung und Entwicklung',
     call: 'Anrufen',
     whatsapp: 'WhatsApp',
     whatsappText: 'Hallo Carma, ich würde gern über meine Website sprechen.',

@@ -113,13 +113,13 @@ export const en: Dict = {
     afterPhoneAlt: 'New website on a phone',
   },
   about: {
-    title: 'Your contact at Carma.',
+    title: 'Who you work with.',
     body: [
-      'Carma is based in Hagnau on Lake Constance. Marc Haupter leads every project and is your contact from the first call to launch day and beyond.',
+      'Marc Haupter leads every project and is your contact from the first call to launch day and beyond.',
       'No sales team and no call centre: the people you talk to are the people who design and build your site, and who answer when you need a change.',
     ],
     name: 'Marc Haupter',
-    place: 'Hagnau am Bodensee, Germany',
+    place: 'Founder, design and development',
     call: 'Call us',
     whatsapp: 'WhatsApp',
     whatsappText: 'Hi Carma, I’d like to talk about my website.',
