@@ -3,7 +3,7 @@ import type { Dict } from './types';
 export const en: Dict = {
   lang: 'en',
   meta: {
-    title: 'Carma – Flagship websites for small businesses',
+    title: 'Carma – Websites for small businesses',
     description:
       'Carma rebuilds outdated small-business websites into fast, beautiful sites you can update yourself, and looks after them once they are live.',
   },
@@ -20,8 +20,8 @@ export const en: Dict = {
     legal: 'Legal',
   },
   hero: {
-    title: 'Small business. Flagship website.',
-    lede: 'We rebuild outdated websites into fast, beautiful sites you can update yourself, and we keep looking after them once they are live.',
+    title: 'We rebuild websites for small businesses.',
+    lede: 'Your outdated site becomes a fast, beautiful one you can update yourself, and we keep looking after it once it is live.',
     primary: 'Book a free first call',
     secondary: 'See a before and after',
     scrollHint: 'Scroll to see how a website is built',
@@ -200,5 +200,5 @@ export const en: Dict = {
     errorRetry: 'Your enquiry could not be sent just now. Please try again later.',
     emailFallback: 'Send an email',
   },
-  footer: { line: 'Flagship websites for small businesses.', imprint: 'Legal notice', privacy: 'Privacy', imprintHref: '/impressum', privacyHref: '/datenschutz' },
+  footer: { line: 'Websites for small businesses.', imprint: 'Legal notice', privacy: 'Privacy', imprintHref: '/impressum', privacyHref: '/datenschutz' },
 };

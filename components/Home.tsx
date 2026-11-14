@@ -128,10 +128,10 @@ export function Home({ t }: { t: Dict }) {
             <RiseText id="faq-title" className="h2" text={t.faq.title} />
             <div className="faq__list">
               {t.faq.items.map((f) => (
-                <details key={f.q} className="qa">
-                  <summary>{f.q}</summary>
+                <div key={f.q} className="qa">
+                  <h3>{f.q}</h3>
                   <p>{f.a}</p>
-                </details>
+                </div>
               ))}
             </div>
           </div>

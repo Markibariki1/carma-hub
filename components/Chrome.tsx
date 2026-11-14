@@ -31,13 +31,15 @@ export function Header({ t, home, solid = false, switchHref }: { t: Dict; home: 
   );
 }
 
-export function Footer({ t, big = false, switchHref }: { t: Dict; big?: boolean; switchHref?: string }) {
+export function Footer({ t, switchHref }: { t: Dict; big?: boolean; switchHref?: string }) {
   const other = t.lang === 'en' ? 'de' : 'en';
   return (
     <footer className="footer">
       <div className="wrap">
         <div className="footer__inner">
-          <p className="footer__line">{t.footer.line}</p>
+          <p className="footer__line">
+            <strong>{site.name}</strong> {t.footer.line}
+          </p>
           <nav className="footer__links" aria-label={t.nav.legal}>
             <Link href={t.footer.imprintHref}>{t.footer.imprint}</Link>
             <Link href={t.footer.privacyHref}>{t.footer.privacy}</Link>
@@ -49,11 +51,6 @@ export function Footer({ t, big = false, switchHref }: { t: Dict; big?: boolean;
             © {new Date().getFullYear()} {site.name}
           </p>
         </div>
-        {big && (
-          <p className="footer__mark" aria-hidden="true" data-reveal>
-            Carma
-          </p>
-        )}
       </div>
     </footer>
   );

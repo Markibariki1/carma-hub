@@ -339,11 +339,11 @@ a {
 }
 
 .stack__title {
-  font-size: var(--step-5);
-  line-height: 0.9;
+  font-size: clamp(2.8rem, 1.6rem + 4.2vw, 5.6rem);
+  line-height: 0.95;
   font-weight: 600;
-  letter-spacing: -0.055em;
-  max-width: 9.5ch;
+  letter-spacing: -0.05em;
+  max-width: 11ch;
   margin-left: -0.04em;
 }
 .stack__lede {
@@ -1498,61 +1498,32 @@ html:not(.fx) .service {
   }
 }
 
-/* ---------- FAQ ---------- */
+/* ---------- FAQ: every answer readable without clicking ---------- */
 .faq {
   padding-block: clamp(64px, 9vw, 140px);
 }
-.faq__inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  gap: 24px 64px;
+.faq__list {
+  margin-top: clamp(32px, 4vw, 56px);
+  columns: 2;
+  column-gap: clamp(40px, 6vw, 96px);
 }
 .qa {
+  break-inside: avoid;
+  padding-block: 22px 26px;
   border-top: 1px solid var(--line);
 }
-.qa:last-child {
-  border-bottom: 1px solid var(--line);
-}
-.qa summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 24px 40px 24px 0;
-  position: relative;
+.qa h3 {
   font-size: var(--step-1);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
-.qa summary::-webkit-details-marker {
-  display: none;
-}
-.qa summary::after {
-  content: '';
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  width: 12px;
-  height: 12px;
-  margin-top: -9px;
-  border-right: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
-  transform: rotate(45deg);
-  transition: transform 0.25s ease;
-}
-.qa[open] summary::after {
-  transform: rotate(-135deg);
-  margin-top: -3px;
-}
-.qa summary:hover {
-  color: var(--blue);
-}
 .qa p {
-  padding-bottom: 24px;
+  margin-top: 8px;
   color: var(--ink-2);
-  max-width: 56ch;
 }
 @media (max-width: 860px) {
-  .faq__inner {
-    grid-template-columns: 1fr;
+  .faq__list {
+    columns: 1;
   }
 }
 

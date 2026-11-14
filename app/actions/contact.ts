@@ -1,4 +1,5 @@
 'use server';
+import { site } from '@/site.config';
 
 /**
  * Contact form → email via Resend's REST API (no SDK needed).
@@ -44,7 +45,7 @@ export async function sendEnquiry(_prev: ContactState, form: FormData): Promise<
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { status: 'error', reason: 'email' };
 
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO;
+  const to = process.env.CONTACT_TO || site.owner.email;
   const from = process.env.CONTACT_FROM || 'Carma <onboarding@resend.dev>';
   if (!apiKey || !to) {
     console.error('[contact] RESEND_API_KEY or CONTACT_TO is not set');

@@ -43,7 +43,7 @@ Always open the draft before sending the link; adjust the headline, colour or ph
 
 1. **Contact form** – in Vercel > Project > Settings > Environment Variables add:
    - `RESEND_API_KEY` – from resend.com > API Keys
-   - `CONTACT_TO` – the inbox that receives enquiries
+   - `CONTACT_TO` – optional; enquiries go to the email in `site.config.ts` (support@carmasearch.com) unless this is set
    - `CONTACT_FROM` – e.g. `Carma <hallo@carmasearch.com>` once the domain is verified in Resend. Until then leave it out; Resend's test sender only delivers to your own Resend account email.
 2. Have the Impressum and Datenschutz text checked (e.g. with an e-Recht24 generator or your accountant/lawyer).
 

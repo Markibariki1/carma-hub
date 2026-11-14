@@ -11,7 +11,7 @@ export const site = {
     street: 'Meersburger Straße 13',
     city: '88709 Hagnau am Bodensee',
     country: 'Deutschland',
-    email: 'marchaupter@outlook.com', // swap for the business address once it exists
+    email: 'support@carmasearch.com',
     phone: '', // optional, e.g. '+49 …'
     vatId: '', // USt-IdNr., if one exists
   },
@@ -23,7 +23,7 @@ export const site = {
     whatsapp: '' as string,
   },
   /** Portrait for the "who you deal with" block, e.g. '/marc.jpg' in /public. Empty shows initials. */
-  photo: '' as string,
+  photo: '/marc.webp' as string,
   /**
    * Price guide shown on the homepage. Both prices depend on the type and size of the business;
    * the site shows the build range and the care starting price. Set show to false to go back

@@ -20,8 +20,8 @@ export const de: Dict = {
     legal: 'Rechtliches',
   },
   hero: {
-    title: 'Kleiner Betrieb. Großer Auftritt.',
-    lede: 'Wir bauen veraltete Websites zu schnellen, schönen Seiten um, die Sie selbst pflegen können, und kümmern uns danach weiter darum.',
+    title: 'Wir bauen Websites für kleine Betriebe neu.',
+    lede: 'Aus Ihrer veralteten Seite wird eine schnelle, schöne Website, die Sie selbst pflegen können. Danach kümmern wir uns weiter darum.',
     primary: 'Unverbindlich anfragen',
     secondary: 'Vorher–nachher ansehen',
     scrollHint: 'Scrollen: so ist eine Website aufgebaut',
