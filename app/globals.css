@@ -714,10 +714,14 @@ a {
 }
 .highlight__foot {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 32px 64px;
-  align-items: end;
+  gap: 32px;
   margin-top: clamp(40px, 5vw, 64px);
+}
+.highlight__foot .highlight__links {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px 32px;
 }
 .highlight__facts {
   list-style: none;
@@ -1397,7 +1401,8 @@ html:not(.fx) .service {
 .price--wide {
   grid-column: 1 / -1;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-  align-items: baseline;
+  grid-template-rows: auto 1fr;
+  align-items: start;
   column-gap: 32px;
 }
 .price--wide .price__label {
@@ -1409,7 +1414,7 @@ html:not(.fx) .service {
 .price--wide .price__note {
   grid-column: 2;
   grid-row: 1 / span 2;
-  align-self: center;
+  margin-top: 0;
 }
 .price__value--small {
   font-size: var(--step-2);
@@ -2047,4 +2052,73 @@ html:not(.fx) .service {
   font-size: 18px;
   font-weight: 600;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Figures (measured results) ---------- */
+.figures {
+  min-width: 0;
+}
+.figures__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px 32px;
+}
+.figure {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 2px solid var(--ink);
+}
+.figure__value {
+  font-size: var(--step-4);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.figure__label {
+  color: var(--ink-2);
+  max-width: 22ch;
+}
+.figures__note {
+  margin-top: 16px;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.casepage__intro .figures {
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+@media (max-width: 900px) {
+  .figures__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.price__list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.price__list li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--ink);
+}
+.price__list li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.4em;
+  width: 13px;
+  height: 7px;
+  border-left: 2px solid var(--blue);
+  border-bottom: 2px solid var(--blue);
+  transform: rotate(-45deg);
+}
+.price__small {
+  margin-top: 14px;
+  font-size: var(--step--1);
+  color: var(--ink-2);
 }

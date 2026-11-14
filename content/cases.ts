@@ -15,6 +15,14 @@ export type CaseText = {
   place: string;
   summary: string;
   details: { label: string; value: string }[];
+  /**
+   * Results in numbers. Only real, measured figures: each needs a source you could show
+   * a client (Lighthouse, Google Search Console, the shop's analytics, WhatsApp chats).
+   * Add traffic results here once they exist, e.g.
+   *   { value: '+48 %', label: 'visitors from Google in the first 3 months', note: 'Google Search Console' }
+   */
+  figures: { value: string; label: string }[];
+  figuresNote: string;
   compareHint: string;
   beforeAlt: string;
   afterAlt: string;
@@ -74,6 +82,13 @@ export const cases: CaseStudy[] = [
           { label: 'Year', value: '2026' },
           { label: 'Work', value: 'Redesign, content move, editor, care' },
         ],
+        figures: [
+          { value: '97/100', label: 'Google speed score on phones' },
+          { value: '2.1 s', label: 'until the page has loaded on slow mobile data' },
+          { value: '100/100', label: 'Google search-readiness score' },
+          { value: '117', label: 'pieces moved over, with photos and details' },
+        ],
+        figuresNote: 'Measured with Google Lighthouse in November 2026.',
         compareHint: 'Drag the handle to compare the old and new home page.',
         beforeAlt: 'Shang Antique’s old home page',
         afterAlt: 'Shang Antique’s new home page',
@@ -120,6 +135,13 @@ export const cases: CaseStudy[] = [
           { label: 'Jahr', value: '2026' },
           { label: 'Leistung', value: 'Redesign, Umzug der Inhalte, Editor, Betreuung' },
         ],
+        figures: [
+          { value: '97/100', label: 'Punkte in Googles Geschwindigkeitstest auf dem Handy' },
+          { value: '2,1 s', label: 'bis die Seite bei langsamem mobilem Internet geladen ist' },
+          { value: '100/100', label: 'Punkte für Suchmaschinen-Tauglichkeit (Google)' },
+          { value: '117', label: 'Stücke übernommen, mit Fotos und Angaben' },
+        ],
+        figuresNote: 'Gemessen mit Google Lighthouse im November 2026.',
         compareHint: 'Den Regler ziehen, um alte und neue Startseite zu vergleichen.',
         beforeAlt: 'Alte Startseite von Shang Antique',
         afterAlt: 'Neue Startseite von Shang Antique',

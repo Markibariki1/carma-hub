@@ -12,6 +12,8 @@ import { Cost } from './Cost';
 import Link from 'next/link';
 import { caseStudyHref } from '@/lib/routes';
 import { businessJsonLd } from '@/lib/jsonld';
+import { getCase } from '@/content/cases';
+import { Figures } from './Figures';
 
 const W = '/work/';
 const desk = (name: string, alt: string) => ({
@@ -25,6 +27,7 @@ const desk = (name: string, alt: string) => ({
 export function Home({ t }: { t: Dict }) {
   const home = t.lang === 'en' ? '/' : '/de';
   const caseHref = caseStudyHref(t.lang, 'shang-antique');
+  const shang = getCase('shang-antique')!.text[t.lang];
 
   return (
     <>
@@ -67,14 +70,7 @@ export function Home({ t }: { t: Dict }) {
             </figure>
             </ViewTransition>
             <div className="highlight__foot">
-              <ul className="highlight__facts">
-                {t.work.facts.slice(0, 3).map((f) => (
-                  <li key={f.title} data-reveal>
-                    <p className="highlight__fact-title">{f.title}</p>
-                    <p className="highlight__fact-body">{f.body}</p>
-                  </li>
-                ))}
-              </ul>
+              <Figures items={shang.figures} note={shang.figuresNote} />
               <div className="highlight__links" data-reveal>
                 <Link className="btn btn--primary" href={caseHref} data-event="case-open">
                   {t.work.caseLink}

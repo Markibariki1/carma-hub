@@ -65,6 +65,8 @@ export type Dict = {
     perMonth: string;
     growth: string;
     growthTag: string;
+    /** What the growth package includes, one line each. */
+    growthItems: string[];
     growthNote: string;
     onRequest: string;
     vatNote: string;

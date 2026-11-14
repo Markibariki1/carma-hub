@@ -54,7 +54,14 @@ export function Cost({ t, lang }: { t: Dict['cost']; lang: Lang }) {
                       t.onRequest
                     )}
                   </dd>
-                  <dd className="price__note">{t.growthNote}</dd>
+                  <dd className="price__note">
+                    <ul className="price__list">
+                      {t.growthItems.map((x) => (
+                        <li key={x}>{x}</li>
+                      ))}
+                    </ul>
+                    <p className="price__small">{t.growthNote}</p>
+                  </dd>
                 </div>
               </dl>
               <p className="price__vat" data-reveal>

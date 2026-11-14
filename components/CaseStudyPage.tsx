@@ -6,6 +6,7 @@ import { BeforeAfter } from './BeforeAfter';
 import { Header, Footer } from './Chrome';
 import { RiseText } from './RiseText';
 import { ScrollFX } from './ScrollFX';
+import { Figures } from './Figures';
 import { caseStudyHref } from '@/lib/routes';
 
 /** One template for every project: intro, before/after, the story, the details, a call to action. */
@@ -57,6 +58,7 @@ export function CaseStudyPage({ t, study }: { t: Dict; study: CaseStudy }) {
                 </dd>
               </div>
             </dl>
+            <Figures items={c.figures} note={c.figuresNote} />
             <ViewTransition name={`case-${study.slug}`}>
               <figure className="compare-figure">
                 <BeforeAfter
